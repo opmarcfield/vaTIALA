@@ -33,9 +33,7 @@ MINIGAMES = [
     "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Wintertodt", "Zalcano", "Zulrah"
 ]
 
-# Example of a custom categories definition:
-#   "alchemy": sum of Herblore + Magic experience
-# You can add more categories and skill mappings if needed.
+# Custom kategoriat jotta voi seurata niide kehitystä, tässä ny molemmat skills ja minigame samassa en jaksanu parantaa toimii näin
 CUSTOM_CATEGORIES = {
     "Combat": {
         "skills": ["Attack", "Defence", "Hitpoints", "Magic", "Prayer", "Ranged", "Strength"],
@@ -54,7 +52,7 @@ CUSTOM_CATEGORIES = {
         "minigames": []
     },
     "Bosses": {
-        # For example, we want to sum certain boss killcounts
+        # pelkät OIKEET BOSSIT
         "skills": [],
         "minigames": ["Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio", "Barrows", "Bryophyta", 
                                     "Callisto", "Calvarion", "Cerberus", "Chaos Elemental", "Chaos Fanatic", 
@@ -70,7 +68,7 @@ CUSTOM_CATEGORIES = {
                                     "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Zulrah"]
     },
     "Clues": {
-        # Summation of various clue scroll completions
+        # Kaikki cluet samaa
         "skills": [],
         "minigames": ["Clue Scrolls (all)"]
     },
@@ -106,7 +104,7 @@ def parse_player_data(player_name, raw_data):
     """
     lines = raw_data.strip().split("\n")
 
-    # Dictionary to hold parsed data
+    # dict jossa parsettu data
     parsed = {
         "player_name": player_name,
         "timestamp": datetime.utcnow().isoformat() + "Z",  # e.g., 2025-02-05T12:34:56Z
@@ -141,7 +139,7 @@ def parse_player_data(player_name, raw_data):
 
     # --------------------------
     # Parse minigames (remaining lines)
-    # Typically: rank, score
+    # Incl: rank, score
     # --------------------------
     minigame_lines = lines[24:]
     for i, line in enumerate(minigame_lines):
@@ -164,7 +162,6 @@ def parse_player_data(player_name, raw_data):
 
     # --------------------------
     # Compute custom categories
-    # Ensure both loops are within this for block
     # --------------------------
     for category_name, cat_data in CUSTOM_CATEGORIES.items():
         skill_sum = 0
@@ -227,7 +224,7 @@ def save_player_data_to_json(player_data):
 
 
 def main():
-    # The players for whom we want to fetch data
+    # vaTIALAn pojat
     player_names = ["vaOPA", "vaPEEXI", "vaRautaMake", "vaROSQIS"]
 
     # For each player, fetch and parse data, then store in a JSON file
