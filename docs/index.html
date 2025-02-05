@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>OSRS Category Rankings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1, h2 {
+      margin-bottom: 0.5em;
+    }
+    table {
+      border-collapse: collapse;
+      margin-bottom: 2em;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+    }
+    th {
+      background-color: #efefef;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>OSRS Category Rankings</h1>
+  <p>This page fetches each player's data from the JSON snapshots, calculates total XP gained 
+     in <strong>Combat</strong>, <strong>Gathering</strong>, <strong>Production</strong>, 
+     and <strong>Utility</strong>, then ranks players by these gains.</p>
+
+  <!-- Container to display results -->
+  <div id="results"></div>
+
+  <script>
+    // List of player JSON filenames (assuming they're all in ./data)
+    const PLAYERS = ["vaOPA", "vaPEEXI", "vaRautaMake", "vaROSQIS"];
+
+    // We'll fetch each player's JSON, compute "gains" from the earliest snapshot to the latest,
+    // store the results in an array, and then rank them for each category.
+    
+    async function fetchPlayerData(playerName) {
+      const url = `./data/${playerName}.json`;  // e.g. ./data/vaPEEXI.json
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to load ${url}: ${response.status}`);
+      }
+      return response.json();  // returns the parsed JSON object
+    }
+
+    function calculateGains(snapshots) {
+      // We'll compare the earliest snapshot in the array to the latest snapshot
+      // to see how much XP was gained in each category.
+
+      if (snapshots.length < 2) {
+        // If there's only 1 snapshot, we can't measure "gains" from a previous state.
+        // So let's return 0 for all categories or just treat earliest=latest.
+        const single = snapshots[0];
+        return {
+          Combat: 0,
+          Gathering: 0,
+          Production: 0,
+          Utility: 0
+        };
+      }
+
+      const earliest = snapshots[0];
+      const latest = snapshots[snapshots.length - 1];
+
+      return {
+        Combat:   latest.custom_categories.Combat   - earliest.custom_categories.Combat,
+        Gathering:latest.custom_categories.Gathering- earliest.custom_categories.Gathering,
+        Production:latest.custom_categories.Production - earliest.custom_categories.Production,
+        Utility: latest.custom_categories.Utility  - earliest.custom_categories.Utility
+      };
+    }
+
+    function rankPlayersByCategory(playersData, category) {
+      // Sort players in descending order of "gains" for the specified category
+      const sorted = [...playersData].sort((a, b) => 
+        b.gains[category] - a.gains[category]
+      );
+      return sorted;
+    }
+
+    async function main() {
+      // 1. Fetch data for all players
+      const playersData = [];
+      for (const player of PLAYERS) {
+        try {
+          const data = await fetchPlayerData(player);
+          // data has structure: { "player_name": ..., "snapshots": [...] }
+          const gains = calculateGains(data.snapshots);
+          playersData.push({ 
+            name: data.player_name, 
+            gains 
+          });
+        } catch (err) {
+          console.error("Error fetching/parsing player:", player, err);
+        }
+      }
+
+      // 2. Rank them by each category
+      const categories = ["Combat", "Gathering", "Production", "Utility"];
+
+      // 3. Display results in a user-friendly format
+      const container = document.getElementById("results");
+      categories.forEach(category => {
+        // Sort players by this category
+        const ranking = rankPlayersByCategory(playersData, category);
+
+        // Build an HTML table or list
+        const heading = document.createElement("h2");
+        heading.textContent = `${category} Gains Ranking`;
+        container.appendChild(heading);
+
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        thead.innerHTML = `
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>${category} XP Gained</th>
+          </tr>
+        `;
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        ranking.forEach((p, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${p.name}</td>
+            <td>${p.gains[category]}</td>
+          `;
+          tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+        container.appendChild(table);
+      });
+    }
+
+    // Run main once the page loads
+    main();
+  </script>
+</body>
+</html>
