@@ -27,8 +27,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "opmarcfield"
+          git config --global user.email "39411656+opmarcfield@users.noreply.github.com"
           git add .
           git diff --quiet && git diff --staged --quiet || git commit -m "Daily data update"
           git push
