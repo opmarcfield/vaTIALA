@@ -5,13 +5,18 @@ on:
     - cron: "0 4 * * *"   # Runs every day at 4 AM UTC
   workflow_dispatch:       # Allows manual runs
 
+permissions:
+  contents: write 
+
 jobs:
   run-fetch-data:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-
+        with:
+          persist-credentials: true  # Make sure credentials are available for pushing
+          
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
