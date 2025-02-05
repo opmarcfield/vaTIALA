@@ -2,12 +2,12 @@
   "player_name": "vaOPA",
   "snapshots": [
     {
-      "timestamp": "2025-02-05T12:33:04.570396Z",
+      "timestamp": "2025-02-05T14:45:56.499817Z",
       "skills": {
         "Overall": {
-          "rank": 1709327,
-          "level": 1240,
-          "experience": 4457842
+          "rank": 1705702,
+          "level": 1242,
+          "experience": 4510889
         },
         "Attack": {
           "rank": -1,
@@ -21,13 +21,13 @@
         },
         "Strength": {
           "rank": -1,
-          "level": 57,
-          "experience": 206198
+          "level": 58,
+          "experience": 246014
         },
         "Hitpoints": {
           "rank": -1,
-          "level": 60,
-          "experience": 290508
+          "level": 61,
+          "experience": 303739
         },
         "Ranged": {
           "rank": -1,
@@ -55,22 +55,22 @@
           "experience": 282750
         },
         "Fletching": {
-          "rank": 1726530,
+          "rank": 1726524,
           "level": 59,
           "experience": 261849
         },
         "Fishing": {
-          "rank": 1971732,
+          "rank": 1971738,
           "level": 59,
           "experience": 265233
         },
         "Firemaking": {
-          "rank": 1929602,
+          "rank": 1929596,
           "level": 59,
           "experience": 271597
         },
         "Crafting": {
-          "rank": 1753706,
+          "rank": 1753709,
           "level": 60,
           "experience": 277666
         },
@@ -80,12 +80,12 @@
           "experience": 102022
         },
         "Mining": {
-          "rank": 1438836,
+          "rank": 1438844,
           "level": 67,
           "experience": 548892
         },
         "Herblore": {
-          "rank": 1208711,
+          "rank": 1208722,
           "level": 59,
           "experience": 256284
         },
@@ -95,7 +95,7 @@
           "experience": 126909
         },
         "Thieving": {
-          "rank": 1898078,
+          "rank": 1898059,
           "level": 50,
           "experience": 102883
         },
@@ -105,12 +105,12 @@
           "experience": 45654
         },
         "Farming": {
-          "rank": 1502005,
+          "rank": 1501995,
           "level": 47,
           "experience": 79645
         },
         "Runecraft": {
-          "rank": 1431159,
+          "rank": 1431143,
           "level": 42,
           "experience": 46887
         },
@@ -120,7 +120,7 @@
           "experience": 152161
         },
         "Construction": {
-          "rank": 1815688,
+          "rank": 1815694,
           "level": 37,
           "experience": 29820
         }
@@ -151,19 +151,19 @@
           "score": -1
         },
         "Clue Scrolls (all)": {
-          "rank": 715182,
+          "rank": 715181,
           "score": 45
         },
         "Clue Scrolls (beginner)": {
-          "rank": 141617,
+          "rank": 141620,
           "score": 36
         },
         "Clue Scrolls (easy)": {
-          "rank": 679596,
+          "rank": 679592,
           "score": 7
         },
         "Clue Scrolls (medium)": {
-          "rank": 1254853,
+          "rank": 1254844,
           "score": 2
         },
         "Clue Scrolls (hard)": {
@@ -191,10 +191,14 @@
           "score": -1
         },
         "Rifts closed": {
-          "rank": 789493,
+          "rank": 789486,
           "score": 7
         },
         "Colosseum Glory": {
+          "rank": -1,
+          "score": -1
+        },
+        "Collections Logged": {
           "rank": -1,
           "score": -1
         },
@@ -359,12 +363,12 @@
           "score": -1
         },
         "Scurrius": {
-          "rank": -1,
-          "score": -1
+          "rank": 328384,
+          "score": 10
         },
         "Skotizo": {
-          "rank": 328387,
-          "score": 10
+          "rank": -1,
+          "score": -1
         },
         "Sol Heredit": {
           "rank": -1,
@@ -375,12 +379,12 @@
           "score": -1
         },
         "Tempoross": {
-          "rank": -1,
-          "score": -1
+          "rank": 699046,
+          "score": 11
         },
         "The Gauntlet": {
-          "rank": 699048,
-          "score": 11
+          "rank": -1,
+          "score": -1
         },
         "The Corrupted Gauntlet": {
           "rank": -1,
@@ -402,7 +406,19 @@
           "rank": -1,
           "score": -1
         },
-        "Thermonuclear Smoke Devil": {
+        "Theatre of Blood": {
+          "rank": -1,
+          "score": -1
+        },
+        "Theatre of Blood: Hard ModeThermonuclear Smoke Devil": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut: Expert Mode": {
           "rank": -1,
           "score": -1
         },
@@ -435,8 +451,8 @@
           "score": -1
         },
         "Zalcano": {
-          "rank": -1,
-          "score": -1
+          "rank": 1475603,
+          "score": 11
         },
         "Zulrah": {
           "rank": -1,
@@ -444,10 +460,38 @@
         }
       },
       "custom_categories": {
-        "Combat": 1439457,
-        "Gathering": 1328681,
-        "Production": 1112841,
-        "Utility": 576863
+        "Combat": {
+          "skills_total_xp": 1492504,
+          "minigames_total_score": 0
+        },
+        "Gathering": {
+          "skills_total_xp": 1328681,
+          "minigames_total_score": 0
+        },
+        "Production": {
+          "skills_total_xp": 1112841,
+          "minigames_total_score": 0
+        },
+        "Utility": {
+          "skills_total_xp": 576863,
+          "minigames_total_score": 0
+        },
+        "Bosses": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 10
+        },
+        "Clues": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 45
+        },
+        "Collection log": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        },
+        "Minigames": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 29
+        }
       }
     }
   ]

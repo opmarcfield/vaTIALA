@@ -2,12 +2,12 @@
   "player_name": "vaPEEXI",
   "snapshots": [
     {
-      "timestamp": "2025-02-05T12:33:05.221943Z",
+      "timestamp": "2025-02-05T14:45:56.900722Z",
       "skills": {
         "Overall": {
-          "rank": 1587769,
-          "level": 1306,
-          "experience": 6348456
+          "rank": 1585974,
+          "level": 1307,
+          "experience": 6382716
         },
         "Attack": {
           "rank": -1,
@@ -40,12 +40,12 @@
           "experience": 97167
         },
         "Magic": {
-          "rank": 1995063,
+          "rank": 1995059,
           "level": 69,
           "experience": 721956
         },
         "Cooking": {
-          "rank": 1978009,
+          "rank": 1978000,
           "level": 62,
           "experience": 350340
         },
@@ -60,9 +60,9 @@
           "experience": 28841
         },
         "Fishing": {
-          "rank": 1584828,
-          "level": 64,
-          "experience": 425475
+          "rank": 1526808,
+          "level": 65,
+          "experience": 458835
         },
         "Firemaking": {
           "rank": -1,
@@ -70,57 +70,57 @@
           "experience": 129058
         },
         "Crafting": {
-          "rank": 1482245,
+          "rank": 1482233,
           "level": 63,
           "experience": 378443
         },
         "Smithing": {
-          "rank": 1935862,
+          "rank": 1935888,
           "level": 50,
           "experience": 108874
         },
         "Mining": {
-          "rank": 1587246,
+          "rank": 1587245,
           "level": 63,
           "experience": 385466
         },
         "Herblore": {
-          "rank": 1139651,
+          "rank": 1138692,
           "level": 60,
-          "experience": 298827
+          "experience": 299727
         },
         "Agility": {
           "rank": -1,
-          "level": -1,
-          "experience": -1
+          "level": 54,
+          "experience": 162019
         },
         "Thieving": {
-          "rank": 1827487,
+          "rank": 1827454,
           "level": 52,
           "experience": 123786
         },
         "Slayer": {
-          "rank": 1918269,
+          "rank": 1918227,
           "level": 47,
           "experience": 77686
         },
         "Farming": {
-          "rank": 1185344,
+          "rank": 1185347,
           "level": 65,
           "experience": 453717
         },
         "Runecraft": {
-          "rank": 1279172,
+          "rank": 1279150,
           "level": 47,
           "experience": 78588
         },
         "Hunter": {
-          "rank": 1238524,
+          "rank": 1238538,
           "level": 61,
           "experience": 322643
         },
         "Construction": {
-          "rank": 1747508,
+          "rank": 1747505,
           "level": 40,
           "experience": 38062
         }
@@ -151,23 +151,23 @@
           "score": -1
         },
         "Clue Scrolls (all)": {
-          "rank": 906201,
+          "rank": 906208,
           "score": 25
         },
         "Clue Scrolls (beginner)": {
-          "rank": 640551,
+          "rank": 640559,
           "score": 6
         },
         "Clue Scrolls (easy)": {
-          "rank": 393622,
+          "rank": 393626,
           "score": 15
         },
         "Clue Scrolls (medium)": {
-          "rank": 1105227,
+          "rank": 1105220,
           "score": 3
         },
         "Clue Scrolls (hard)": {
-          "rank": 1241485,
+          "rank": 1241488,
           "score": 1
         },
         "Clue Scrolls (elite)": {
@@ -191,10 +191,14 @@
           "score": -1
         },
         "Rifts closed": {
-          "rank": 765251,
+          "rank": 765245,
           "score": 9
         },
         "Colosseum Glory": {
+          "rank": -1,
+          "score": -1
+        },
+        "Collections Logged": {
           "rank": -1,
           "score": -1
         },
@@ -375,12 +379,12 @@
           "score": -1
         },
         "Tempoross": {
-          "rank": -1,
-          "score": -1
+          "rank": 730721,
+          "score": 10
         },
         "The Gauntlet": {
-          "rank": 730725,
-          "score": 10
+          "rank": -1,
+          "score": -1
         },
         "The Corrupted Gauntlet": {
           "rank": -1,
@@ -402,7 +406,19 @@
           "rank": -1,
           "score": -1
         },
-        "Thermonuclear Smoke Devil": {
+        "Theatre of Blood": {
+          "rank": -1,
+          "score": -1
+        },
+        "Theatre of Blood: Hard ModeThermonuclear Smoke Devil": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut: Expert Mode": {
           "rank": -1,
           "score": -1
         },
@@ -444,10 +460,38 @@
         }
       },
       "custom_categories": {
-        "Combat": 2789698,
-        "Gathering": 1784234,
-        "Production": 1243913,
-        "Utility": 368591
+        "Combat": {
+          "skills_total_xp": 2789698,
+          "minigames_total_score": 0
+        },
+        "Gathering": {
+          "skills_total_xp": 1817594,
+          "minigames_total_score": 0
+        },
+        "Production": {
+          "skills_total_xp": 1244813,
+          "minigames_total_score": 0
+        },
+        "Utility": {
+          "skills_total_xp": 530611,
+          "minigames_total_score": 0
+        },
+        "Bosses": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        },
+        "Clues": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 25
+        },
+        "Collection log": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        },
+        "Minigames": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 19
+        }
       }
     }
   ]

@@ -2,12 +2,12 @@
   "player_name": "vaROSQIS",
   "snapshots": [
     {
-      "timestamp": "2025-02-05T12:33:06.680224Z",
+      "timestamp": "2025-02-05T14:45:57.727074Z",
       "skills": {
         "Overall": {
-          "rank": 1842107,
-          "level": 1169,
-          "experience": 3506397
+          "rank": 1840126,
+          "level": 1170,
+          "experience": 3543242
         },
         "Attack": {
           "rank": -1,
@@ -42,7 +42,7 @@
         "Magic": {
           "rank": -1,
           "level": 61,
-          "experience": 333653
+          "experience": 333709
         },
         "Cooking": {
           "rank": -1,
@@ -60,7 +60,7 @@
           "experience": 29554
         },
         "Fishing": {
-          "rank": 1936003,
+          "rank": 1936013,
           "level": 60,
           "experience": 274315
         },
@@ -75,17 +75,17 @@
           "experience": 109342
         },
         "Smithing": {
-          "rank": 1534467,
+          "rank": 1534466,
           "level": 58,
           "experience": 236657
         },
         "Mining": {
-          "rank": 1539306,
-          "level": 64,
-          "experience": 430248
+          "rank": 1503356,
+          "level": 65,
+          "experience": 466408
         },
         "Herblore": {
-          "rank": 1341845,
+          "rank": 1341837,
           "level": 56,
           "experience": 194284
         },
@@ -95,7 +95,7 @@
           "experience": 104876
         },
         "Thieving": {
-          "rank": 1922858,
+          "rank": 1922831,
           "level": 50,
           "experience": 101386
         },
@@ -105,22 +105,22 @@
           "experience": 55293
         },
         "Farming": {
-          "rank": 1636611,
+          "rank": 1634066,
           "level": 41,
-          "experience": 41820
+          "experience": 42427
         },
         "Runecraft": {
-          "rank": 1666039,
+          "rank": 1666028,
           "level": 35,
           "experience": 23572
         },
         "Hunter": {
-          "rank": 1464325,
+          "rank": 1464302,
           "level": 52,
-          "experience": 130196
+          "experience": 130218
         },
         "Construction": {
-          "rank": 1862397,
+          "rank": 1862405,
           "level": 36,
           "experience": 25093
         }
@@ -151,23 +151,23 @@
           "score": -1
         },
         "Clue Scrolls (all)": {
-          "rank": 688683,
+          "rank": 688681,
           "score": 49
         },
         "Clue Scrolls (beginner)": {
-          "rank": 145410,
+          "rank": 145413,
           "score": 35
         },
         "Clue Scrolls (easy)": {
-          "rank": 679503,
+          "rank": 679501,
           "score": 7
         },
         "Clue Scrolls (medium)": {
-          "rank": 869046,
+          "rank": 869041,
           "score": 6
         },
         "Clue Scrolls (hard)": {
-          "rank": 1239811,
+          "rank": 1239814,
           "score": 1
         },
         "Clue Scrolls (elite)": {
@@ -195,6 +195,10 @@
           "score": -1
         },
         "Colosseum Glory": {
+          "rank": -1,
+          "score": -1
+        },
+        "Collections Logged": {
           "rank": -1,
           "score": -1
         },
@@ -402,7 +406,19 @@
           "rank": -1,
           "score": -1
         },
-        "Thermonuclear Smoke Devil": {
+        "Theatre of Blood": {
+          "rank": -1,
+          "score": -1
+        },
+        "Theatre of Blood: Hard ModeThermonuclear Smoke Devil": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut: Expert Mode": {
           "rank": -1,
           "score": -1
         },
@@ -444,10 +460,38 @@
         }
       },
       "custom_categories": {
-        "Combat": 1183969,
-        "Gathering": 1128506,
-        "Production": 808303,
-        "Utility": 385619
+        "Combat": {
+          "skills_total_xp": 1184025,
+          "minigames_total_score": 0
+        },
+        "Gathering": {
+          "skills_total_xp": 1165295,
+          "minigames_total_score": 0
+        },
+        "Production": {
+          "skills_total_xp": 808303,
+          "minigames_total_score": 0
+        },
+        "Utility": {
+          "skills_total_xp": 385619,
+          "minigames_total_score": 0
+        },
+        "Bosses": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        },
+        "Clues": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 49
+        },
+        "Collection log": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        },
+        "Minigames": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        }
       }
     }
   ]

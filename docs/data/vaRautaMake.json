@@ -2,12 +2,12 @@
   "player_name": "vaRautaMake",
   "snapshots": [
     {
-      "timestamp": "2025-02-05T12:33:05.925795Z",
+      "timestamp": "2025-02-05T14:45:57.326309Z",
       "skills": {
         "Overall": {
-          "rank": 1562460,
-          "level": 1320,
-          "experience": 6137525
+          "rank": 1555288,
+          "level": 1324,
+          "experience": 6257858
         },
         "Attack": {
           "rank": -1,
@@ -21,13 +21,13 @@
         },
         "Strength": {
           "rank": -1,
-          "level": 61,
-          "experience": 326932
+          "level": 62,
+          "experience": 350816
         },
         "Hitpoints": {
           "rank": -1,
           "level": 62,
-          "experience": 358418
+          "experience": 366358
         },
         "Ranged": {
           "rank": -1,
@@ -35,14 +35,14 @@
           "experience": 157850
         },
         "Prayer": {
-          "rank": 1968549,
+          "rank": 1961510,
           "level": 51,
-          "experience": 117445
+          "experience": 119270
         },
         "Magic": {
           "rank": -1,
           "level": 63,
-          "experience": 373329
+          "experience": 374017
         },
         "Cooking": {
           "rank": -1,
@@ -50,17 +50,17 @@
           "experience": 278812
         },
         "Woodcutting": {
-          "rank": 1835723,
+          "rank": 1834291,
           "level": 64,
-          "experience": 413522
+          "experience": 414402
         },
         "Fletching": {
           "rank": -1,
-          "level": 42,
-          "experience": 48539
+          "level": 44,
+          "experience": 55967
         },
         "Fishing": {
-          "rank": 1724592,
+          "rank": 1724588,
           "level": 62,
           "experience": 350295
         },
@@ -70,57 +70,57 @@
           "experience": 122317
         },
         "Crafting": {
-          "rank": 1608659,
+          "rank": 1607809,
           "level": 61,
-          "experience": 322797
+          "experience": 323117
         },
         "Smithing": {
-          "rank": 1868713,
+          "rank": 1868732,
           "level": 51,
           "experience": 115381
         },
         "Mining": {
-          "rank": 1314390,
+          "rank": 1314408,
           "level": 69,
           "experience": 678828
         },
         "Herblore": {
-          "rank": 1098829,
+          "rank": 1086990,
           "level": 62,
-          "experience": 342642
+          "experience": 358867
         },
         "Agility": {
-          "rank": 1945704,
+          "rank": 1945692,
           "level": 56,
           "experience": 185037
         },
         "Thieving": {
-          "rank": 1530459,
+          "rank": 1530453,
           "level": 53,
           "experience": 149961
         },
         "Slayer": {
-          "rank": 1858986,
+          "rank": 1842451,
           "level": 49,
-          "experience": 94240
+          "experience": 99967
         },
         "Farming": {
-          "rank": 1194379,
-          "level": 64,
-          "experience": 426008
+          "rank": 1176200,
+          "level": 65,
+          "experience": 473717
         },
         "Runecraft": {
-          "rank": 810149,
+          "rank": 810145,
           "level": 61,
           "experience": 329198
         },
         "Hunter": {
-          "rank": 1238712,
+          "rank": 1221067,
           "level": 61,
-          "experience": 322335
+          "experience": 330042
         },
         "Construction": {
-          "rank": 1689110,
+          "rank": 1689104,
           "level": 42,
           "experience": 45912
         }
@@ -151,20 +151,20 @@
           "score": -1
         },
         "Clue Scrolls (all)": {
-          "rank": 1000280,
-          "score": 19
+          "rank": 965824,
+          "score": 21
         },
         "Clue Scrolls (beginner)": {
-          "rank": 353559,
-          "score": 13
+          "rank": 332549,
+          "score": 14
         },
         "Clue Scrolls (easy)": {
-          "rank": 832789,
+          "rank": 832780,
           "score": 5
         },
         "Clue Scrolls (medium)": {
-          "rank": 1555734,
-          "score": 1
+          "rank": 1255122,
+          "score": 2
         },
         "Clue Scrolls (hard)": {
           "rank": -1,
@@ -191,10 +191,14 @@
           "score": -1
         },
         "Rifts closed": {
-          "rank": 439622,
+          "rank": 439617,
           "score": 50
         },
         "Colosseum Glory": {
+          "rank": -1,
+          "score": -1
+        },
+        "Collections Logged": {
           "rank": -1,
           "score": -1
         },
@@ -402,7 +406,19 @@
           "rank": -1,
           "score": -1
         },
-        "Thermonuclear Smoke Devil": {
+        "Theatre of Blood": {
+          "rank": -1,
+          "score": -1
+        },
+        "Theatre of Blood: Hard ModeThermonuclear Smoke Devil": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut: Expert Mode": {
           "rank": -1,
           "score": -1
         },
@@ -444,10 +460,38 @@
         }
       },
       "custom_categories": {
-        "Combat": 1911701,
-        "Gathering": 2190988,
-        "Production": 1437369,
-        "Utility": 597467
+        "Combat": {
+          "skills_total_xp": 1946038,
+          "minigames_total_score": 0
+        },
+        "Gathering": {
+          "skills_total_xp": 2247284,
+          "minigames_total_score": 0
+        },
+        "Production": {
+          "skills_total_xp": 1461342,
+          "minigames_total_score": 0
+        },
+        "Utility": {
+          "skills_total_xp": 603194,
+          "minigames_total_score": 0
+        },
+        "Bosses": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        },
+        "Clues": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 21
+        },
+        "Collection log": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        },
+        "Minigames": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 50
+        }
       }
     }
   ]

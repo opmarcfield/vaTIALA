@@ -3,21 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <title>OSRS Category Rankings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    /* Set the page background to an image */
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
+      margin: 0;
+      padding: 0;
+      /* URL of your image. Use a local image (e.g., "./bg.jpg") 
+         or an external link (e.g., "https://example.com/bg.jpg") */
+      background: url('background-image.png') no-repeat center center fixed;
+      background-size: cover; 
+      font-family: 'Poppins', sans-serif;
     }
+
+    /* A container that holds everything in a centered box */
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      background-color: #c1c2c4cc; /* Slightly transparent white (white w/0.8 opacity) */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
     h1, h2 {
-      margin-bottom: 0.5em;
+      margin-top: 0;
+      text-align: center;
     }
+
+    p {
+      text-align: center;
+      font-size: 18px;
+    }
+
     table {
       border-collapse: collapse;
       margin-bottom: 2em;
+      width: 100%;
     }
     th, td {
       border: 1px solid #ccc;
       padding: 6px 10px;
+      text-align: left;
     }
     th {
       background-color: #efefef;
@@ -26,21 +53,18 @@
 </head>
 <body>
 
-  <h1>OSRS Category Rankings</h1>
-  <p>This page fetches each player's data from the JSON snapshots, calculates total XP gained 
-     in <strong>Combat</strong>, <strong>Gathering</strong>, <strong>Production</strong>, 
-     and <strong>Utility</strong>, then ranks players by these gains.</p>
-
-  <!-- Container to display results -->
-  <div id="results"></div>
+  <div class="container">
+    <h1>vaTIALA</h1>
+    <p>Kategoriat Jagexin perus kategorioiden mukaan, combat/gathering/production/utility näyttää <strong>XP GAINSSIT</strong> alkaen <strong>05/02/2025 16:50</strong>, cluet/minigamet/bossit näyttää kokonais scoren. Bossit on bosseja :D minigamet on tempoross/wintertodt/gotr/zalcano, cluet on kaikki yhteenlaskettu!</p>
+    <p>Päivitykset laitetaan menee keskellä yötä kerran päivässä näin alkuun, katotaan toimiiko :D</p>
+    <!-- Container to display results -->
+    <div id="results"></div>
+  </div>
 
   <script>
     // List of player JSON filenames (assuming they're all in ./data)
     const PLAYERS = ["vaOPA", "vaPEEXI", "vaRautaMake", "vaROSQIS"];
 
-    // We'll fetch each player's JSON, compute "gains" from the earliest snapshot to the latest,
-    // store the results in an array, and then rank them for each category.
-    
     async function fetchPlayerData(playerName) {
       const url = `./data/${playerName}.json`;  // e.g. ./data/vaPEEXI.json
       const response = await fetch(url);
@@ -51,99 +75,146 @@
     }
 
     function calculateGains(snapshots) {
-      // We'll compare the earliest snapshot in the array to the latest snapshot
-      // to see how much XP was gained in each category.
-
+      // If there's only one snapshot, no "earliest" for a difference.
+      // We'll just return 0 for the difference-based categories,
+      // and the latest value for the "latest-only" categories.
       if (snapshots.length < 2) {
-        // If there's only 1 snapshot, we can't measure "gains" from a previous state.
-        // So let's return 0 for all categories or just treat earliest=latest.
-        const single = snapshots[0];
+        const only = snapshots.length === 1 ? snapshots[0] : null;
+        const cat = only ? only.custom_categories : {};
         return {
+          // Difference-based categories -> 0
           Combat: 0,
           Gathering: 0,
           Production: 0,
-          Utility: 0
+          Utility: 0,
+    
+          // Latest-only categories -> just show snapshot's value (if any)
+          Bosses: cat?.Bosses?.minigames_total_score ?? 0,
+          Minigames: cat?.Minigames?.minigames_total_score ?? 0,
+          Clues: cat?.Clues?.minigames_total_score ?? 0
         };
       }
-
+    
+      // Otherwise, we have earliest & latest
       const earliest = snapshots[0];
       const latest = snapshots[snapshots.length - 1];
-
+    
+      // Helper to safely get a skill XP difference
+      function diffXP(categoryName) {
+        const e = earliest.custom_categories[categoryName]?.skills_total_xp ?? 0;
+        const l = latest.custom_categories[categoryName]?.skills_total_xp ?? 0;
+        return l - e;
+      }
+    
+      // For Bosses, Minigames, Clues, we show only the latest minigame score
+      function latestScore(categoryName) {
+        return latest.custom_categories[categoryName]?.minigames_total_score ?? 0;
+      }
+    
       return {
-        Combat:   latest.custom_categories.Combat   - earliest.custom_categories.Combat,
-        Gathering:latest.custom_categories.Gathering- earliest.custom_categories.Gathering,
-        Production:latest.custom_categories.Production - earliest.custom_categories.Production,
-        Utility: latest.custom_categories.Utility  - earliest.custom_categories.Utility
+        // Show difference in XP for these categories
+        Combat: diffXP("Combat"),
+        Gathering: diffXP("Gathering"),
+        Production: diffXP("Production"),
+        Utility: diffXP("Utility"),
+    
+        // Show latest minigame score for these categories
+        Bosses: latestScore("Bosses"),
+        Minigames: latestScore("Minigames"),
+        Clues: latestScore("Clues")
       };
     }
+    
 
     function rankPlayersByCategory(playersData, category) {
-      // Sort players in descending order of "gains" for the specified category
-      const sorted = [...playersData].sort((a, b) => 
-        b.gains[category] - a.gains[category]
-      );
-      return sorted;
+      // Sort players in descending order of gains for the category
+      return [...playersData].sort((a, b) => b.gains[category] - a.gains[category]);
     }
 
     async function main() {
-      // 1. Fetch data for all players
       const playersData = [];
+
       for (const player of PLAYERS) {
         try {
           const data = await fetchPlayerData(player);
           // data has structure: { "player_name": ..., "snapshots": [...] }
           const gains = calculateGains(data.snapshots);
-          playersData.push({ 
-            name: data.player_name, 
-            gains 
+          playersData.push({
+            name: data.player_name,
+            gains
           });
         } catch (err) {
           console.error("Error fetching/parsing player:", player, err);
         }
       }
 
-      // 2. Rank them by each category
-      const categories = ["Combat", "Gathering", "Production", "Utility"];
+      const categories = ["Combat", "Gathering", "Production", "Utility", "Bosses", "Clues", "Minigames"];
+      const diffCats = ["Combat", "Gathering", "Production", "Utility"];
 
-      // 3. Display results in a user-friendly format
       const container = document.getElementById("results");
+
       categories.forEach(category => {
         // Sort players by this category
         const ranking = rankPlayersByCategory(playersData, category);
 
-        // Build an HTML table or list
+        // Build an HTML heading
         const heading = document.createElement("h2");
-        heading.textContent = `${category} Gains Ranking`;
+        //XXXheading.textContent = `${category}`;
+        if (diffCats.includes(category)) {
+          heading.textContent = `${category} XP Gains`;
+        } else {
+          heading.textContent = `${category}`;
+        }
         container.appendChild(heading);
 
+        // Create a table for the ranks
         const table = document.createElement("table");
-        const thead = document.createElement("thead");
-        thead.innerHTML = `
-          <tr>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>${category} XP Gained</th>
-          </tr>
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>${diffCats.includes(category)
+                ? `${category} XP Gains` 
+                : `${category} Total`}</th>
+            </tr>
+          </thead>
         `;
-        table.appendChild(thead);
-
         const tbody = document.createElement("tbody");
+
         ranking.forEach((p, index) => {
           const row = document.createElement("tr");
+          let displayName = p.name; // Keep original name unchanged
+        
+          // Add titles only for the #1 ranked player
+          if (index === 0) {
+            row.style.fontWeight = "bold";
+            let title = "";
+        
+            // Custom titles based on category
+            if (category === "Clues") title = " 🏆 the CLUE MASTER";
+            if (category === "Bosses") title = " 💀 the BOSS KILLER";
+            if (category === "Minigames") title = " 🎮 the MINIGAME CHAMP";
+        
+            // Append title to display name, but do NOT modify `p.name`
+            displayName += title;
+          }
+        
           row.innerHTML = `
             <td>${index + 1}</td>
-            <td>${p.name}</td>
+            <td>${displayName}</td>
             <td>${p.gains[category]}</td>
           `;
           tbody.appendChild(row);
         });
+
         table.appendChild(tbody);
         container.appendChild(table);
       });
     }
 
-    // Run main once the page loads
     main();
   </script>
+
 </body>
 </html>

@@ -16,7 +16,7 @@ MINIGAMES = [
     "BH1","BH2","BH3","BH4","BH5","BH6","Clue Scrolls (all)", 
     "Clue Scrolls (beginner)", "Clue Scrolls (easy)", "Clue Scrolls (medium)", 
     "Clue Scrolls (hard)", "Clue Scrolls (elite)", "Clue Scrolls (master)", 
-    "LMS - Rank", "PVPARENA", "Soul Wars Zeal", "Rifts closed", "Colosseum Glory",
+    "LMS - Rank", "PVPARENA", "Soul Wars Zeal", "Rifts closed", "Colosseum Glory", "Collections Logged",
     "Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio", 
     "Barrows", "Bryophyta", "Callisto", "Calvarion", "Cerberus", 
     "Chambers of Xeric", "Chambers of Xeric: Challenge Mode", "Chaos Elemental", 
@@ -28,7 +28,8 @@ MINIGAMES = [
     "Nightmare", "Phosani's Nightmare", "Obor", "Phantom Muspah", "Sarachnis", 
     "Scorpia", "Scurrius", "Skotizo", "Sol Heredit", "Spindel", "Tempoross", 
     "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl", "The Leviathan", "The Royal Titans", 
-    "The Whisperer", "Thermonuclear Smoke Devil", "TzKal-Zuk", "TzTok-Jad", 
+    "The Whisperer", "Theatre of Blood", 
+    "Theatre of Blood: Hard Mode" "Thermonuclear Smoke Devil", "Tombs of Amascut", "Tombs of Amascut: Expert Mode", "TzKal-Zuk", "TzTok-Jad", 
     "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Wintertodt", "Zalcano", "Zulrah"
 ]
 
@@ -36,37 +37,51 @@ MINIGAMES = [
 #   "alchemy": sum of Herblore + Magic experience
 # You can add more categories and skill mappings if needed.
 CUSTOM_CATEGORIES = {
-    "Combat": [
-        "Attack",
-        "Defence",
-        "Hitpoints",
-        "Magic",
-        "Prayer",
-        "Ranged",
-        "Strength"
-    ],
-    "Gathering": [
-        "Farming",
-        "Fishing",
-        "Hunter",
-        "Mining",
-        "Woodcutting"
-    ],
-    "Production": [
-        "Cooking",
-        "Crafting",
-        "Fletching",
-        "Herblore",
-        "Runecraft",
-        "Smithing"
-    ],
-    "Utility": [
-        "Agility",
-        "Construction",
-        "Firemaking",
-        "Slayer",
-        "Thieving"
-    ]
+    "Combat": {
+        "skills": ["Attack", "Defence", "Hitpoints", "Magic", "Prayer", "Ranged", "Strength"],
+        "minigames": []
+    },
+    "Gathering": {
+        "skills": ["Farming", "Fishing", "Hunter", "Mining", "Woodcutting"],
+        "minigames": []
+    },
+    "Production": {
+        "skills": ["Cooking", "Crafting", "Fletching", "Herblore", "Runecraft", "Smithing"],
+        "minigames": []
+    },
+    "Utility": {
+        "skills": ["Agility", "Construction", "Firemaking", "Slayer", "Thieving"],
+        "minigames": []
+    },
+    "Bosses": {
+        # For example, we want to sum certain boss killcounts
+        "skills": [],
+        "minigames": ["Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio", "Barrows", "Bryophyta", 
+                                    "Callisto", "Calvarion", "Cerberus", "Chaos Elemental", "Chaos Fanatic", 
+                                    "Commander Zilyana", "Corporeal Beast", "Crazy Archaeologist", 
+                                    "Dagannoth Prime", "Dagannoth Rex", "Dagannoth Supreme", 
+                                    "Deranged Archaeologist", "Duke Sucellus", "General Graardor", 
+                                    "Giant Mole", "Grotesque Guardians", "Hespori", "Kalphite Queen", 
+                                    "King Black Dragon", "Kraken", "Kree'Arra", "K'ril Tsutsaroth", "Lunar Chests",
+                                    "Mimic", "Nex", "Nightmare", "Phosani's Nightmare", "Obor", 
+                                    "Phantom Muspah", "Sarachnis", "Scorpia", "Scurrius", "Skotizo", "Sol Heredit", 
+                                    "Spindel", "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl",
+                                    "The Leviathan","The Royal Titans", "The Whisperer", "Thermonuclear Smoke Devil", 
+                                    "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Zulrah"]
+    },
+    "Clues": {
+        # Summation of various clue scroll completions
+        "skills": [],
+        "minigames": ["Clue Scrolls (all)"]
+    },
+    "Collection log" : {
+        "skills": [],
+        "minigames": ["Collections Logged"]
+    },
+    "Minigames" : {
+        "skills": [],
+        "minigames": ["Tempoross", "Wintertodt", "Rifts closed", "Zalcano"]
+    }
 }
 
 
@@ -102,8 +117,7 @@ def parse_player_data(player_name, raw_data):
 
     # --------------------------
     # Parse skills (first 24 lines)
-    # Each line typically: rank, level, experience
-    # e.g. "1587765,1306,6338822"
+    # Each line: rank, level, experience
     # --------------------------
     for i, line in enumerate(lines[:24]):
         skill_name = SKILLS[i]
@@ -119,7 +133,6 @@ def parse_player_data(player_name, raw_data):
                 "experience": experience
             }
         else:
-            # If the line is malformed
             parsed["skills"][skill_name] = {
                 "rank": -1,
                 "level": -1,
@@ -129,7 +142,6 @@ def parse_player_data(player_name, raw_data):
     # --------------------------
     # Parse minigames (remaining lines)
     # Typically: rank, score
-    # e.g. "100,15"
     # --------------------------
     minigame_lines = lines[24:]
     for i, line in enumerate(minigame_lines):
@@ -152,14 +164,28 @@ def parse_player_data(player_name, raw_data):
 
     # --------------------------
     # Compute custom categories
-    # Example: 'alchemy' = sum of Herblore + Magic XP
+    # Ensure both loops are within this for block
     # --------------------------
-    for category_name, skill_list in CUSTOM_CATEGORIES.items():
-        total_xp = 0
-        for skill in skill_list:
-            if skill in parsed["skills"]:
-                total_xp += parsed["skills"][skill]["experience"]
-        parsed["custom_categories"][category_name] = total_xp
+    for category_name, cat_data in CUSTOM_CATEGORIES.items():
+        skill_sum = 0
+        for skill_name in cat_data.get("skills", []):
+            if skill_name in parsed["skills"]:
+                skill_sum += parsed["skills"][skill_name]["experience"]
+
+        minigame_sum = 0
+        for mg_name in cat_data.get("minigames", []):
+            if mg_name in parsed["minigames"]:
+                raw_score = parsed["minigames"][mg_name]["score"]
+                # If raw_score is negative, treat as 0
+                if raw_score < 0:
+                    raw_score = 0
+                minigame_sum += raw_score
+
+        # Store the totals in your parsed data.
+        parsed["custom_categories"][category_name] = {
+            "skills_total_xp": skill_sum,
+            "minigames_total_score": minigame_sum
+        }
 
     return parsed
 
