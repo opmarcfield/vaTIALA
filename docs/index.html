@@ -91,7 +91,7 @@
     <div class="results-box" id="results"></div>
   </div>
 
-  <script>
+<script>
     // List of player JSON filenames (assuming they're all in ./data)
     const PLAYERS = ["vaOPA", "vaPEEXI", "vaRautaMake", "vaROSQIS"];
 
@@ -104,7 +104,147 @@
       return response.json();  // returns the parsed JSON object
     }
 
-    function calculateGains(snapshots) {
+  async function getHighestLevels() {
+     const playerData = await Promise.all(PLAYERS.map(fetchPlayerData));
+
+     // Extract the latest snapshot for each player
+     const latestSnapshots = playerData.map(player => {
+       const snapshots = player.snapshots;
+       return snapshots[snapshots.length - 1]; // Get the newest snapshot
+     });
+   
+     // Determine the highest level for each skill
+     const skills = Object.keys(latestSnapshots[0].skills); // Get all skill names
+     const highestLevels = {};
+   
+     skills.forEach(skill => {
+       let highestLevel = -1;
+       let playerWithHighestLevel = "";
+
+       latestSnapshots.forEach((snapshot, index) => {
+         const level = snapshot.skills[skill].level;
+         if (level > highestLevel) {
+           highestLevel = level;
+           playerWithHighestLevel = PLAYERS[index];
+         }
+       });
+     
+       highestLevels[skill] = {
+         player: playerWithHighestLevel,
+         level: highestLevel
+       };
+     });
+   
+    return highestLevels;
+}
+
+  async function displayHighestLevels() {
+  const highestLevels = await getHighestLevels();
+
+  // Mapping of skills to their corresponding icons
+  const skillIcons = {
+  "Overall": "./images/Stats icon.png",
+  "Attack": "./images/Attack.png",
+  "Defence": "./images/Defence icon.png",
+  "Strength": "./images/Strength icon.png",
+  "Hitpoints": "./images/Hitpoints icon.png",
+  "Ranged": "./images/Ranged icon.png",
+  "Prayer": "./images/Prayer icon.png",
+  "Magic": "./images/Magic icon.png",
+  "Cooking": "./images/Cooking icon.png",
+  "Woodcutting": "./images/Woodcutting icon.png",
+  "Fletching": "./images/Fletching icon.png",
+  "Fishing": "./images/Fishing icon.png",
+  "Firemaking": "./images/Firemaking icon.png",
+  "Crafting": "./images/Crafting icon.png",
+  "Smithing": "./images/Smithing icon.png",
+  "Mining": "./images/Mining icon.png",
+  "Herblore": "./images/Herblore icon.png",
+  "Agility": "./images/Agility icon.png",
+  "Thieving": "./images/Thieving icon.png",
+  "Slayer": "./images/Slayer icon.png",
+  "Farming": "./images/Farming icon.png",
+  "Runecraft": "./images/Runecraft icon.png",
+  "Hunter": "./images/Hunter icon.png",
+  "Construction": "./images/Construction icon.png"
+  };
+
+  // Mapping of leaders to their respective colors
+  const leaderColors = {
+  "vaOPA": "purple",
+  "vaPEEXI": "black",
+  "vaRautaMake": "white",
+  "vaROSQIS": "blue"
+  };
+
+  // Create the table
+  const table = document.createElement("table");
+  table.border = "1";
+  table.style.width = "100%";
+
+  // Create the header row
+  const headerRow = document.createElement("tr");
+  const skillHeader = document.createElement("th");
+  skillHeader.textContent = "Skill";
+  const playerHeader = document.createElement("th");
+  playerHeader.textContent = "Leader";
+  const levelHeader = document.createElement("th");
+  levelHeader.textContent = "LVL";
+  headerRow.appendChild(skillHeader);
+  headerRow.appendChild(playerHeader);
+  headerRow.appendChild(levelHeader);
+  table.appendChild(headerRow);
+
+  // Populate the table with data
+  Object.entries(highestLevels).forEach(([skill, data]) => {
+    const row = document.createElement("tr");
+
+    // Skill cell with icon
+    const skillCell = document.createElement("td");
+    const skillIcon = document.createElement("img");
+    skillIcon.src = skillIcons[skill] || "./images/default-icon.png"; // Use a default icon if no mapping exists
+    skillIcon.alt = `${skill} Icon`;
+    skillIcon.style.width = "24px";
+    skillIcon.style.height = "24px";
+    skillIcon.style.verticalAlign = "middle";
+    skillIcon.style.marginRight = "8px"; // Space between icon and text
+    skillCell.appendChild(skillIcon);
+    skillCell.appendChild(document.createTextNode(skill));
+    row.appendChild(skillCell);
+
+    // Player cell with specific color
+    const playerCell = document.createElement("td");
+    playerCell.textContent = data.player;
+    playerCell.style.color = leaderColors[data.player] || "black"; // Use black as default if no color is defined
+    playerCell.style.fontWeight = "bold"; // Make text bold
+    row.appendChild(playerCell);
+
+    // Level cell
+    const levelCell = document.createElement("td");
+    levelCell.textContent = data.level;
+    row.appendChild(levelCell);
+
+    table.appendChild(row);
+  });
+
+  // Create a wrapper for the highest levels table
+  const categoryBox = document.createElement("div");
+  categoryBox.classList.add("category-box");
+
+  // Add a heading for the highest levels table
+  const heading = document.createElement("h2");
+  heading.textContent = "Skill Leaders";
+  categoryBox.appendChild(heading);
+
+  // Add the table inside the box
+  categoryBox.appendChild(table);
+
+  // Append the entire category box to the results container
+  const resultsContainer = document.getElementById("results");
+  resultsContainer.appendChild(categoryBox);
+}
+
+  function calculateGains(snapshots) {
       // If there's only one snapshot, no "earliest" for a difference.
       // We'll just return 0 for the difference-based categories,
       // and the latest value for the "latest-only" categories.
@@ -156,12 +296,12 @@
     }
     
 
-    function rankPlayersByCategory(playersData, category) {
+  function rankPlayersByCategory(playersData, category) {
       // Sort players in descending order of gains for the category
       return [...playersData].sort((a, b) => b.gains[category] - a.gains[category]);
     }
 
-    async function main() {
+  async function main() {
       const playersData = [];
 
       for (const player of PLAYERS) {
@@ -283,10 +423,13 @@ categoryBox.appendChild(table);
 container.appendChild(categoryBox);
 
       });
+
+      // Call the function to display the table
+      await displayHighestLevels();
     }
 
     main();
-  </script>
+</script>
 
 </body>
 </html>
