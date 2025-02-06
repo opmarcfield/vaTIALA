@@ -2,63 +2,93 @@
 <html>
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OSRS Category Rankings</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* Set the page background to an image */
-    body {
-      margin: 0;
-      padding: 0;
-      /* URL of your image. Use a local image (e.g., "./bg.jpg") 
-         or an external link (e.g., "https://example.com/bg.jpg") */
-      background: url('background-image.png') no-repeat center center fixed;
-      background-size: cover; 
-      font-family: 'Poppins', sans-serif;
-    }
+  /* Set the page background to an image */
+  body {
+    margin: 0;
+    padding: 0;
+    /* URL of your image. Use a local image (e.g., "./bg.jpg") 
+       or an external link (e.g., "https://example.com/bg.jpg") */
+    background: url('background-image.png') no-repeat center center fixed;
+    background-size: cover; 
+    font-family: 'Poppins', sans-serif;
+    color: #f5f5f5; /* Light text for contrast */
+  }
+  /* A container that holds everything in a centered box */
+  .container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+  }
+  
+  h1, h2 {
+    text-align: center;
+    /*background-color: rgba(193, 194, 196, 0.8); /* Slight transparency */
+    padding: 2px;
+    border-radius: 8px;
+    display: block; /* Ensure full width */
+    width: fit-content; /* Fit the text width */
+    margin: 0 auto; /* Center horizontally */
+    color: #ffffff; /* Very WHite */
+  }
 
-    /* A container that holds everything in a centered box */
-    .container {
-      max-width: 900px;
-      margin: 50px auto;
-      background-color: #c1c2c4cc; /* Slightly transparent white (white w/0.8 opacity) */
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    }
-
-    h1, h2 {
-      margin-top: 0;
-      text-align: center;
-    }
-
-    p {
-      text-align: center;
-      font-size: 18px;
-    }
-
+  p {
+    text-align: center;
+    font-size: 18px;
+    /*background-color: rgba(193, 194, 196, 0.8); /* Same color as before, but only here */
+  }
     table {
-      border-collapse: collapse;
-      margin-bottom: 2em;
-      width: 100%;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #efefef;
-    }
+    border-collapse: collapse;
+    margin-bottom: 2em;
+    width: 100%;
+    background-color: #a1887f; /* Light Wood Beige */
+    border-radius: 8px;
+    padding: 10px;
+    overflow: hidden;
+  }
+  th, td {
+    border: 1px solid #5d4037; /* Mahogany border */
+    padding: 6px 10px;
+    text-align: left;
+  }
+  th {
+    background-color: #6d4c41; /* Deep Brown */
+  }
+
+  .intro-box {
+    background-color: #6d4c416b; /* Warm Mahogany */
+    padding: 2px 2px 2px 2px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .category-box {
+    padding: 0px 0px 0px 0px;
+    border-radius: 8px;
+    margin-bottom: 20px; /* Space between category boxes */
+  }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>vaTIALA</h1>
-    <p>Kategoriat Jagexin perus kategorioiden mukaan, combat/gathering/production/utility näyttää <strong>XP GAINSSIT</strong> alkaen <strong>05/02/2025 16:50</strong>, cluet/minigamet/bossit näyttää kokonais scoren. Bossit on bosseja :D minigamet on tempoross/wintertodt/gotr/zalcano, cluet on kaikki yhteenlaskettu!</p>
-    <p>Päivitykset laitetaan menee keskellä yötä kerran päivässä näin alkuun, katotaan toimiiko :D</p>
-    <!-- Container to display results -->
-    <div id="results"></div>
+    <div class="intro-box">
+      <h1>vaTIALA</h1>
+      <p>XP gainssit on laskettu <strong>16:40 05/02/2025 alkaen</strong><br>
+      Boss gainssit on kaikki hiscoreilta löytyvät OIKEET BOSSIT, kokonais yhteenlaskettu määrä<br>
+      Cluet on yhteenlasketut cluet - halutaanko jaettelu matrix myös?? discordissa viestiä jos halutaan<br>
+      Minigamet on <i>Tempoross, Wintertodt, Zalcano & GOTR</i><br>
+      <br>
+      <i>Päivitykset everyday 6AM</i></p>
+    </div>
+  
+    <!-- Box for headings + tables -->
+    <div class="results-box" id="results"></div>
   </div>
 
   <script>
@@ -153,63 +183,105 @@
 
       const container = document.getElementById("results");
 
+      // kategorioiden headingit 
       categories.forEach(category => {
-        // Sort players by this category
-        const ranking = rankPlayersByCategory(playersData, category);
+      const ranking = rankPlayersByCategory(playersData, category);
 
-        // Build an HTML heading
-        const heading = document.createElement("h2");
-        //XXXheading.textContent = `${category}`;
-        if (diffCats.includes(category)) {
-          heading.textContent = `${category} XP Gains`;
-        } else {
-          heading.textContent = `${category}`;
-        }
-        container.appendChild(heading);
+      const heading = document.createElement("h2");
+      const headingText = document.createElement("span"); 
+      const categoryHeadings = {
+        "Combat": "Combat XP",
+        "Gathering": "Gathering XP",
+        "Production": "Production XP",
+        "Utility": "Utility XP",
+        "Bosses": "Total Boss KC",
+        "Clues": "Clue Scroll Completions",
+        "Minigames": "Minigame KC"
+      };
 
-        // Create a table for the ranks
-        const table = document.createElement("table");
-        table.innerHTML = `
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Player</th>
-              <th>${diffCats.includes(category)
-                ? `${category} XP Gains` 
-                : `${category} Total`}</th>
-            </tr>
-          </thead>
-        `;
-        const tbody = document.createElement("tbody");
+headingText.textContent = categoryHeadings[category] || `${category} XP`;
 
-        ranking.forEach((p, index) => {
-          const row = document.createElement("tr");
-          let displayName = p.name; // Keep original name unchanged
-        
-          // Add titles only for the #1 ranked player
-          if (index === 0) {
-            row.style.fontWeight = "bold";
-            let title = "";
-        
-            // Custom titles based on category
-            if (category === "Clues") title = " 🏆 the CLUE MASTER";
-            if (category === "Bosses") title = " 💀 the BOSS KILLER";
-            if (category === "Minigames") title = " 🎮 the MINIGAME CHAMP";
-        
-            // Append title to display name, but do NOT modify `p.name`
-            displayName += title;
+      if (diffCats.includes(category)) {
+          const symbolContainer = document.createElement("span"); // Wrapper for symbols
+          symbolContainer.style.marginRight = "8px"; // Space between symbols and text
+
+          const symbolSources = {
+              "Combat": ["./images/attack.png", "./images/Defence icon.png", "./images/Hitpoints icon.png", "./images/Magic icon.png", "./images/Prayer icon.png", "./images/Ranged icon.png", "./images/Strength icon.png"],
+              "Gathering": ["./images/Farming icon.png", "./images/Fishing icon.png", "./images/Hunter icon.png", "./images/Mining icon.png", "./images/Woodcutting icon.png"],
+              "Utility": ["./images/Agility icon.png", "./images/Thieving icon.png", "./images/Construction icon.png", "./images/Firemaking icon.png", "./images/Slayer icon.png"],
+              "Production": ["./images/Crafting icon.png", "./images/Smithing icon.png", "./images/Fletching icon.png", "./images/Herblore icon.png", "./images/Runecraft icon.png"]
+          };
+
+          if (symbolSources[category]) {
+              symbolSources[category].forEach(src => {
+                  const symbolImg = document.createElement("img");
+                  symbolImg.src = src;
+                  symbolImg.alt = `${category} Symbol`; 
+                  symbolImg.style.width = "24px"; 
+                  symbolImg.style.height = "24px";
+                  symbolImg.style.verticalAlign = "middle";
+                  symbolContainer.appendChild(symbolImg);
+              });
           }
-        
-          row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${displayName}</td>
-            <td>${p.gains[category]}</td>
-          `;
-          tbody.appendChild(row);
-        });
 
-        table.appendChild(tbody);
-        container.appendChild(table);
+          heading.appendChild(symbolContainer);
+    }
+
+    heading.appendChild(headingText);
+// Create a wrapper for each category
+const categoryBox = document.createElement("div");
+categoryBox.classList.add("category-box");
+
+// Add the heading inside the box
+categoryBox.appendChild(heading);
+
+// Create a table for the ranks
+const table = document.createElement("table");
+table.innerHTML = `
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Player</th>
+      <th>${diffCats.includes(category) ? `${category} XP Gains` : `${category} Total`}</th>
+    </tr>
+  </thead>
+`;
+const tbody = document.createElement("tbody");
+
+ranking.forEach((p, index) => {
+  const row = document.createElement("tr");
+  let displayName = p.name; // Keep original name unchanged
+
+  // Add titles only for the #1 ranked player
+  if (index === 0) {
+    row.style.fontWeight = "bold";
+    let title = "";
+
+    // Custom titles based on category
+    if (category === "Clues") title = " 🏆 the CLUE MASTER";
+    if (category === "Bosses") title = " 💀 the BOSS KILLER";
+    if (category === "Minigames") title = " 🎮 the MINIGAME CHAMP";
+
+    // Append title to display name, but do NOT modify `p.name`
+    displayName += title;
+  }
+
+  row.innerHTML = `
+    <td>${index + 1}</td>
+    <td>${displayName}</td>
+    <td>${p.gains[category]}</td>
+  `;
+  tbody.appendChild(row);
+});
+
+table.appendChild(tbody);
+
+// Add the table inside the box
+categoryBox.appendChild(table);
+
+// Append the entire category box to the main container
+container.appendChild(categoryBox);
+
       });
     }
 
