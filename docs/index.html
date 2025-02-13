@@ -34,7 +34,49 @@
     margin: 0 auto; /* Center horizontally */
     color: #ffffff; /* Very WHite */
   }
-
+  .skills-changes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns in one row */
+    gap: 20px; /* space between the columns */
+    align-items: start;
+  }
+  
+  .player-changes {
+    /* Same main background color as before */
+    background-color: #6d4c41a6; 
+    /* Rounded corners */
+    border-radius: 8px;
+    /* Subtle box shadow */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  
+    /* ↓↓↓ Adjust these to control spacing inside the box ↓↓↓ */
+    padding: 0px;  
+    margin: 0;
+  
+    /* Add a thin border with a slightly different color */
+    border: 1px solid #8d6e63; /* Example color, tweak as needed */
+  }
+  .player-changes ul {
+  list-style-type: none;  /* remove the default bullet/circle */
+  padding: 0;            /* remove left padding/indentation */
+  margin: 0; 
+  text-align: center;            /* remove top/bottom margin */
+}
+.player-changes h3 {
+  text-align: center;
+  /* Remove default margin so heading is tight against the box */
+  margin: 0 0 0 0; 
+  /* Slightly darker background for the heading area */
+  background-color: #8d6e63;  
+  /* Padding around text */
+  padding: 3px;
+  /* Rounded corners at top only (optional) */
+  border-radius: 6px 6px 0 0; 
+  /* Bold, bright text to stand out (optional) */
+  color: #ffffff; 
+  font-weight: 600;
+}
+  
   p {
     text-align: center;
     font-size: 18px;
@@ -79,12 +121,9 @@
   <div class="container">
     <div class="intro-box">
       <h1>vaTIALA</h1>
-      <p>XP gainssit on laskettu <strong>16:40 05/02/2025 alkaen</strong><br>
-      Boss gainssit on kaikki hiscoreilta löytyvät OIKEET BOSSIT, kokonais yhteenlaskettu määrä<br>
-      Cluet on yhteenlasketut cluet - halutaanko jaettelu matrix myös?? discordissa viestiä jos halutaan<br>
-      Minigamet on <i>Tempoross, Wintertodt, Zalcano & GOTR</i><br>
+      <p>Live since <strong>16:40 05/02/2025</strong><br>
       <br>
-      <i>Päivitykset everyday 6AM</i></p>
+      <i>Updates daily @ 6AM</i></p>
     </div>
   
     <!-- Box for headings + tables -->
@@ -143,8 +182,8 @@
 
   // Mapping of skills to their corresponding icons
   const skillIcons = {
-  "Overall": "./images/Stats icon.png",
-  "Attack": "./images/attack.png",
+  "Overall": "./images/Overall icon.png",
+  "Attack": "./images/Attack icon.png",
   "Defence": "./images/Defence icon.png",
   "Strength": "./images/Strength icon.png",
   "Hitpoints": "./images/Hitpoints icon.png",
@@ -243,6 +282,83 @@
   const resultsContainer = document.getElementById("results");
   resultsContainer.appendChild(categoryBox);
 }
+/**
+ * Given the array of snapshots for one player,
+ * returns an object with each tier's 'score' from the *latest* snapshot.
+ * If the tier is -1 or missing, we'll use 0 as a fallback.
+ */
+ function getLatestClueTiers(snapshots) {
+  // If no snapshots, return zeros
+  if (!snapshots || snapshots.length === 0) {
+    return {
+      all: 0,
+      beginner: 0,
+      easy: 0,
+      medium: 0,
+      hard: 0,
+      elite: 0,
+      master: 0
+    };
+  }
+  // Grab the last snapshot
+  const last = snapshots[snapshots.length - 1];
+
+  // Access the relevant "Clue Scrolls (X)" data
+  // Adjust path if your JSON structure is different
+  function getScore(key) {
+    // If not found or -1, return 0
+    const entry = last.minigames?.[key];
+    return (entry && entry.score >= 0) ? entry.score : 0;
+  }
+
+  return {
+    all:      getScore("Clue Scrolls (all)"),
+    beginner: getScore("Clue Scrolls (beginner)"),
+    easy:     getScore("Clue Scrolls (easy)"),
+    medium:   getScore("Clue Scrolls (medium)"),
+    hard:     getScore("Clue Scrolls (hard)"),
+    elite:    getScore("Clue Scrolls (elite)"),
+    master:   getScore("Clue Scrolls (master)")
+  };
+}
+function rankPlayersByClues(playersData) {
+  // Build an array of { name, cluesData } for each player
+  const enriched = playersData.map(player => {
+    const { all, beginner, easy, medium, hard, elite, master } = getLatestClueTiers(player.snapshots);
+    return {
+      name: player.player_name, 
+      all, beginner, easy, medium, hard, elite, master
+    };
+  });
+
+  // Sort by total "all" in descending order
+  enriched.sort((a, b) => b.all - a.all);
+
+  return enriched;
+}
+
+function getSkillLevelChanges(snapshots) {
+  if (snapshots.length < 2) {
+    return []; // No previous snapshot to compare
+  }
+  const prev = snapshots[snapshots.length - 2]; // second to last
+  const curr = snapshots[snapshots.length - 1]; // last
+
+  const changes = [];
+  for (const skill in curr.skills) {
+    const oldLevel = prev.skills[skill].level;
+    const newLevel = curr.skills[skill].level;
+    if (newLevel > oldLevel) {
+      changes.push({
+        skill,
+        oldLevel,
+        newLevel,
+        diff: newLevel - oldLevel
+      });
+    }
+  }
+  return changes;
+}
 
   function calculateGains(snapshots) {
       // If there's only one snapshot, no "earliest" for a difference.
@@ -301,134 +417,167 @@
       return [...playersData].sort((a, b) => b.gains[category] - a.gains[category]);
     }
 
-  async function main() {
+    async function main() {
+      // 1. Gather player data
       const playersData = [];
-
       for (const player of PLAYERS) {
         try {
           const data = await fetchPlayerData(player);
-          // data has structure: { "player_name": ..., "snapshots": [...] }
           const gains = calculateGains(data.snapshots);
           playersData.push({
             name: data.player_name,
-            gains
+            gains,
+            skillChanges: getSkillLevelChanges(data.snapshots),
           });
         } catch (err) {
           console.error("Error fetching/parsing player:", player, err);
         }
       }
-
-      const categories = ["Combat", "Gathering", "Production", "Utility", "Bosses", "Clues", "Minigames"];
-      const diffCats = ["Combat", "Gathering", "Production", "Utility"];
-
+    
+      // 2. Reference your main container for dynamic content
       const container = document.getElementById("results");
-
-      // kategorioiden headingit 
-      categories.forEach(category => {
-      const ranking = rankPlayersByCategory(playersData, category);
-
-      const heading = document.createElement("h2");
-      const headingText = document.createElement("span"); 
-      const categoryHeadings = {
-        "Combat": "Combat XP",
-        "Gathering": "Gathering XP",
-        "Production": "Production XP",
-        "Utility": "Utility XP",
-        "Bosses": "Total Boss KC",
-        "Clues": "Clue Scroll Completions",
-        "Minigames": "Minigame KC"
-      };
-
-headingText.textContent = categoryHeadings[category] || `${category} XP`;
-
-      if (diffCats.includes(category)) {
-          const symbolContainer = document.createElement("span"); // Wrapper for symbols
-          symbolContainer.style.marginRight = "8px"; // Space between symbols and text
-
-          const symbolSources = {
-              "Combat": ["./images/attack.png", "./images/Defence icon.png", "./images/Hitpoints icon.png", "./images/Magic icon.png", "./images/Prayer icon.png", "./images/Ranged icon.png", "./images/Strength icon.png"],
-              "Gathering": ["./images/Farming icon.png", "./images/Fishing icon.png", "./images/Hunter icon.png", "./images/Mining icon.png", "./images/Woodcutting icon.png"],
-              "Utility": ["./images/Agility icon.png", "./images/Thieving icon.png", "./images/Construction icon.png", "./images/Firemaking icon.png", "./images/Slayer icon.png"],
-              "Production": ["./images/Crafting icon.png", "./images/Smithing icon.png", "./images/Fletching icon.png", "./images/Herblore icon.png", "./images/Runecraft icon.png", "./images/Cooking icon.png"]
-          };
-
-          if (symbolSources[category]) {
-              symbolSources[category].forEach(src => {
-                  const symbolImg = document.createElement("img");
-                  symbolImg.src = src;
-                  symbolImg.alt = `${category} Symbol`; 
-                  symbolImg.style.width = "24px"; 
-                  symbolImg.style.height = "24px";
-                  symbolImg.style.verticalAlign = "middle";
-                  symbolContainer.appendChild(symbolImg);
-              });
-          }
-
-          heading.appendChild(symbolContainer);
-    }
-
-    heading.appendChild(headingText);
-// Create a wrapper for each category
-const categoryBox = document.createElement("div");
-categoryBox.classList.add("category-box");
-
-// Add the heading inside the box
-categoryBox.appendChild(heading);
-
-// Create a table for the ranks
-const table = document.createElement("table");
-table.innerHTML = `
-  <thead>
-    <tr>
-      <th>Rank</th>
-      <th>Player</th>
-      <th>${diffCats.includes(category) ? `${category} XP Gains` : `${category} Total`}</th>
-    </tr>
-  </thead>
-`;
-const tbody = document.createElement("tbody");
-
-ranking.forEach((p, index) => {
-  const row = document.createElement("tr");
-  let displayName = p.name; // Keep original name unchanged
-
-  // Add titles only for the #1 ranked player
-  if (index === 0) {
-    row.style.fontWeight = "bold";
-    let title = "";
-
-    // Custom titles based on category
-    if (category === "Clues") title = " 🏆 the CLUE MASTER";
-    if (category === "Bosses") title = " 💀 the BOSS KILLER";
-    if (category === "Minigames") title = " 🎮 the MINIGAME CHAMP";
-
-    // Append title to display name, but do NOT modify `p.name`
-    displayName += title;
-  }
-
-  row.innerHTML = `
-    <td>${index + 1}</td>
-    <td>${displayName}</td>
-    <td>${p.gains[category]}</td>
-  `;
-  tbody.appendChild(row);
-});
-
-table.appendChild(tbody);
-
-// Add the table inside the box
-categoryBox.appendChild(table);
-
-// Append the entire category box to the main container
-container.appendChild(categoryBox);
-
+    
+      // 3. SKILL CHANGES SECTION (place it first, so it appears before tables)
+      const skillChangesBox = document.createElement("div");
+      skillChangesBox.classList.add("category-box");
+    
+      const skillChangesHeading = document.createElement("h2");
+      skillChangesHeading.textContent = "Daily News";
+      skillChangesBox.appendChild(skillChangesHeading);
+    
+      // If you want a grid or row layout for player boxes
+      const gridContainer = document.createElement("div");
+      gridContainer.classList.add("skills-changes-grid"); 
+      // (Ensure you have .skills-changes-grid in your CSS)
+    
+      // Build a box for each player's changes
+      playersData.forEach((player) => {
+        if (player.skillChanges.length === 0) return;
+    
+        const playerBox = document.createElement("div");
+        playerBox.classList.add("player-changes");
+    
+        const playerHeading = document.createElement("h3");
+        playerHeading.textContent = player.name;
+        playerBox.appendChild(playerHeading);
+    
+        const ul = document.createElement("ul");
+        player.skillChanges.forEach((change) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <img
+              src="./images/${change.skill} icon.png"
+              alt="${change.skill} Icon"
+              style="width:20px; height:20px; vertical-align:middle; margin:0 5px;"
+            />
+            ${change.oldLevel} ➾ ${change.newLevel}
+          `;
+          ul.appendChild(li);
+        });
+    
+        playerBox.appendChild(ul);
+        gridContainer.appendChild(playerBox);
       });
-
-      // Call the function to display the table
+    
+      skillChangesBox.appendChild(gridContainer);
+      // **Append the skillChangesBox BEFORE you build the tables.**
+      container.appendChild(skillChangesBox);
       await displayHighestLevels();
-    }
 
+      // 4. CATEGORIES SECTION (your existing code for each table)
+      const categories = ["Bosses", "Clues", "Minigames", "Combat", "Gathering", "Production", "Utility"];
+      const diffCats = ["Combat", "Gathering", "Production", "Utility"];
+    
+      categories.forEach((category) => {
+        const ranking = rankPlayersByCategory(playersData, category);
+    
+        // Build the heading
+        const heading = document.createElement("h2");
+        const headingText = document.createElement("span");
+        const categoryHeadings = {
+          Combat: "Combat XP",
+          Gathering: "Gathering XP",
+          Production: "Production XP",
+          Utility: "Utility XP",
+          Bosses: "Total Boss KC",
+          Clues: "Clue Scroll Completions",
+          Minigames: "Minigame KC",
+        };
+        headingText.textContent = categoryHeadings[category] || `${category} XP`;
+    
+        if (diffCats.includes(category)) {
+          const symbolContainer = document.createElement("span");
+          symbolContainer.style.marginRight = "8px";
+          const symbolSources = {
+            Combat: ["./images/Attack icon.png", "./images/Defence icon.png", "./images/Hitpoints icon.png", "./images/Magic icon.png", "./images/Prayer icon.png", "./images/Ranged icon.png", "./images/Strength icon.png"],
+            Gathering: ["./images/Farming icon.png", "./images/Fishing icon.png", "./images/Hunter icon.png", "./images/Mining icon.png", "./images/Woodcutting icon.png"],
+            Utility: ["./images/Agility icon.png", "./images/Thieving icon.png", "./images/Construction icon.png", "./images/Firemaking icon.png", "./images/Slayer icon.png"],
+            Production: ["./images/Crafting icon.png", "./images/Smithing icon.png", "./images/Fletching icon.png", "./images/Herblore icon.png", "./images/Runecraft icon.png", "./images/Cooking icon.png"],
+          };
+          if (symbolSources[category]) {
+            symbolSources[category].forEach((src) => {
+              const symbolImg = document.createElement("img");
+              symbolImg.src = src;
+              symbolImg.alt = `${category} Symbol`;
+              symbolImg.style.width = "24px";
+              symbolImg.style.height = "24px";
+              symbolImg.style.verticalAlign = "middle";
+              symbolContainer.appendChild(symbolImg);
+            });
+          }
+          heading.appendChild(symbolContainer);
+        }
+    
+        heading.appendChild(headingText);
+    
+        // Create a category box
+        const categoryBox = document.createElement("div");
+        categoryBox.classList.add("category-box");
+        categoryBox.appendChild(heading);
+    
+        // Build the table
+        const table = document.createElement("table");
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>${diffCats.includes(category) ? `${category} XP Gains` : `${category} Total`}</th>
+            </tr>
+          </thead>
+        `;
+        const tbody = document.createElement("tbody");
+    
+        ranking.forEach((p, index) => {
+          const row = document.createElement("tr");
+          let displayName = p.name;
+    
+          if (index === 0) {
+            row.style.fontWeight = "bold";
+            let title = "";
+            if (category === "Clues") title = " 🏆 the CLUE MASTER";
+            if (category === "Bosses") title = " 💀 the BOSS KILLER";
+            if (category === "Minigames") title = " 🎮 the MINIGAME CHAMP";
+            displayName += title;
+          }
+    
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${displayName}</td>
+            <td>${p.gains[category].toLocaleString()}</td>
+          `;
+          tbody.appendChild(row);
+        });
+    
+        table.appendChild(tbody);
+        categoryBox.appendChild(table);
+        container.appendChild(categoryBox);
+      });
+      
+    }
+    
     main();
+    
 </script>
 
 </body>
