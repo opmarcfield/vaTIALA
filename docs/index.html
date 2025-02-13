@@ -36,7 +36,7 @@
   }
   .skills-changes-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns in one row */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px; /* space between the columns */
     align-items: start;
   }
@@ -103,6 +103,7 @@
   .intro-box {
     background-color: #6d4c416b; /* Warm Mahogany */
     padding: 2px 2px 2px 2px;
+    border: 7px solid #1d0902; /* Adjust color and thickness as desired */
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     text-align: center;
