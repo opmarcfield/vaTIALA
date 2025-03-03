@@ -115,6 +115,44 @@
     border-radius: 8px;
     margin-bottom: 20px; /* Space between category boxes */
   }
+  /* New styles for the framed picture */
+  .framed-picture {
+    text-align: center;
+    margin: 20px 0;
+  }
+  .framed-picture img {
+    border: 10px solid #6d4c41; /* Frame color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    max-width: 100%; /* Ensure the image is responsive */
+    height: auto; /* Maintain aspect ratio */
+  }
+  .in-memoriam {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #6d4c416b; /* Semi-transparent background */
+  border: 2px solid #8d6e63; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+.in-memoriam h2 {
+  color: #ffffff; /* White text */
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.in-memoriam p {
+  color: #f5f5f5; /* Light text */
+  font-size: 16px;
+  line-height: 1.6;
+}
+.in-memoriam strong {
+  color: #ffcc80; /* Highlight important text */
+}
+.in-memoriam em {
+  font-style: italic;
+  color: #ffcc80; /* Highlight the final line */
+}
   </style>
 </head>
 <body>
@@ -126,7 +164,22 @@
       <br>
       <i>Updates daily @ 6AM</i></p>
     </div>
+
+  <!-- In-Memoriam Section -->
+  <div class="in-memoriam">
+    <h2>In Memoriam</h2>
+    <p>
+      Our brave member <strong>vaOPA</strong> died to multiple zombies at the Shayzien Crypt on <strong>3rd of March, 2025</strong>.<br>
+      Thoughts and prayers to his valiant, yet foolish efforts.<br>
+      <em>"No food. No preparation. Massive RIP"</em>
+    </p>
+  </div>
   
+  <div class="framed-picture">
+    <img src="./images/sad.png">
+  </div>
+
+
     <!-- Box for headings + tables -->
     <div class="results-box" id="results"></div>
   </div>
