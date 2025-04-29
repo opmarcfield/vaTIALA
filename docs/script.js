@@ -327,7 +327,7 @@ async function displayHighestLevels() {
       
         // 2. Reference your main container for dynamic content
         const container = document.getElementById("results");
-      
+
         // 3. SKILL CHANGES SECTION (place it first, so it appears before tables)
         const skillChangesBox = document.createElement("div");
         skillChangesBox.classList.add("category-box");
@@ -398,6 +398,124 @@ async function displayHighestLevels() {
         // **Append the skillChangesBox BEFORE you build the tables.**
         container.appendChild(skillChangesBox);
         await displayHighestLevels();
+
+        // --- CATEGORY SWITCHER DROPDOWN ---
+        // (Only define these variables once, after Skill Leaders table)
+        const catSwitcherBox = document.createElement('div');
+        catSwitcherBox.style.display = 'flex';
+        catSwitcherBox.style.justifyContent = 'center';
+        catSwitcherBox.style.alignItems = 'center';
+        catSwitcherBox.style.marginBottom = '20px';
+        catSwitcherBox.style.gap = '12px';
+
+        const catLabel = document.createElement('label');
+        catLabel.textContent = 'Show Category: ';
+        catLabel.setAttribute('for', 'category-switcher');
+        catLabel.style.fontWeight = 'bold';
+        catLabel.style.fontSize = '1.1em';
+
+        const catSelect = document.createElement('select');
+        catSelect.id = 'category-switcher';
+        catSelect.style.fontSize = '1.1em';
+        catSelect.style.padding = '2px 8px';
+        catSelect.style.borderRadius = '6px';
+        catSelect.style.background = '#e0e0e0';
+        catSelect.style.color = '#333';
+        catSelect.style.border = '1px solid #8d6e63';
+
+        const catSwitcherOptions = [
+          { value: '', label: 'Select Category...', disabled: true, selected: true },
+          { value: 'Combat', label: 'Combat' },
+          { value: 'Gathering', label: 'Gathering' },
+          { value: 'Production', label: 'Production' },
+          { value: 'Utility', label: 'Utility' },
+          { value: 'Bosses', label: 'Total Boss KC' },
+          { value: 'Clues', label: 'Clue Scroll Completions' },
+          { value: 'Minigames', label: 'Minigame KC' },
+          { value: 'ShowAll', label: 'Show All' }
+        ];
+        catSwitcherOptions.forEach(opt => {
+          const o = document.createElement('option');
+          o.value = opt.value;
+          o.textContent = opt.label;
+          if (opt.disabled) o.disabled = true;
+          if (opt.selected) o.selected = true;
+          catSelect.appendChild(o);
+        });
+        catSwitcherBox.appendChild(catLabel);
+        catSwitcherBox.appendChild(catSelect);
+        // Insert just after Skill Leaders table
+        const resultsBox = document.getElementById('results');
+        const skillLeadersBox = resultsBox.querySelector('.category-box h2');
+        if (skillLeadersBox && skillLeadersBox.textContent.trim() === 'Skill Leaders') {
+          resultsBox.insertBefore(catSwitcherBox, skillLeadersBox.parentElement.nextSibling);
+        } else {
+          resultsBox.appendChild(catSwitcherBox);
+        }
+
+        // --- CATEGORY SWITCHER LOGIC ---
+        // Hide all relevant tables by default (on page load)
+        function hideAllCategoryTables() {
+          const map = {
+            'Combat': 'Combat XP',
+            'Gathering': 'Gathering XP',
+            'Production': 'Production XP',
+            'Utility': 'Utility XP',
+            'Bosses': 'Total Boss KC',
+            'Clues': 'Clue Scroll Completions',
+            'Minigames': 'Minigame KC'
+          };
+          const categoryHeadings = Object.values(map);
+          const boxes = Array.from(resultsBox.querySelectorAll('.category-box'));
+          boxes.forEach(box => {
+            const h2 = box.querySelector('h2');
+            if (!h2) return;
+            const txt = h2.textContent.trim();
+            if (categoryHeadings.includes(txt)) {
+              box.style.display = 'none';
+            }
+          });
+        }
+        // Run after a short delay to ensure all tables are rendered
+        setTimeout(hideAllCategoryTables, 0);
+
+        catSelect.addEventListener('change', function() {
+          const selected = catSelect.value;
+          const map = {
+            'Combat': 'Combat XP',
+            'Gathering': 'Gathering XP',
+            'Production': 'Production XP',
+            'Utility': 'Utility XP',
+            'Bosses': 'Total Boss KC',
+            'Clues': 'Clue Scroll Completions',
+            'Minigames': 'Minigame KC'
+          };
+          const categoryHeadings = Object.values(map);
+          const boxes = Array.from(resultsBox.querySelectorAll('.category-box'));
+          boxes.forEach(box => {
+            const h2 = box.querySelector('h2');
+            if (!h2) return;
+            const txt = h2.textContent.trim();
+            if (selected === 'ShowAll') {
+              // Show all
+              if (categoryHeadings.includes(txt)) {
+                box.style.display = '';
+              }
+            } else if (selected && map[selected]) {
+              // Only show the selected category
+              if (txt === map[selected]) {
+                box.style.display = '';
+              } else if (categoryHeadings.includes(txt)) {
+                box.style.display = 'none';
+              }
+            } else {
+              // Hide all relevant tables
+              if (categoryHeadings.includes(txt)) {
+                box.style.display = 'none';
+              }
+            }
+          });
+        });
   
         // 4. CATEGORIES SECTION (your existing code for each table)
         const categories = ["Bosses", "Clues", "Minigames", "Combat", "Gathering", "Production", "Utility"];
@@ -487,6 +605,7 @@ async function displayHighestLevels() {
           table.appendChild(tbody);
           categoryBox.appendChild(table);
           container.appendChild(categoryBox);
+          
         });
         
       }
