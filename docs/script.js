@@ -343,7 +343,9 @@ async function displayHighestLevels() {
       
         // Build a box for each player's changes
         playersData.forEach((player) => {
-          if (player.skillChanges.length === 0) return;
+          const hasSkillNews    = player.skillChanges.length > 0;
+          const hasMinigameNews = player.minigameChanges.length > 0;
+          if (!hasSkillNews && !hasMinigameNews) return;
       
           const playerBox = document.createElement("div");
           playerBox.classList.add("player-changes");
@@ -588,7 +590,7 @@ async function displayHighestLevels() {
             if (index === 0) {
               row.style.fontWeight = "bold";
               let title = "";
-              if (category === "Clues") title = " 🏆 the CLUE MASTER";
+              if (category === "Clues") title = " 🝆 the CLUE MASTER";
               if (category === "Bosses") title = " 💀 the BOSS KILLER";
               if (category === "Minigames") title = " 🎮 the MINIGAME CHAMP";
               displayName += title;
