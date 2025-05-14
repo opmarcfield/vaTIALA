@@ -30,7 +30,7 @@ MINIGAMES = [
     "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl", "The Leviathan", "The Royal Titans", 
     "The Whisperer", "Theatre of Blood", 
     "Theatre of Blood: Hard Mode", "Thermonuclear Smoke Devil", "Tombs of Amascut", "Tombs of Amascut: Expert Mode", "TzKal-Zuk", "TzTok-Jad", 
-    "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Wintertodt", "Zalcano", "Zulrah"
+    "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Wintertodt", "Yama", "Zalcano", "Zulrah"
 ]
 
 # Custom kategoriat jotta voi seurata niide kehitystä, tässä ny molemmat skills ja minigame samassa en jaksanu parantaa toimii näin
@@ -65,7 +65,7 @@ CUSTOM_CATEGORIES = {
                                     "Phantom Muspah", "Sarachnis", "Scorpia", "Scurrius", "Skotizo", "Sol Heredit", 
                                     "Spindel", "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl",
                                     "The Leviathan","The Royal Titans", "The Whisperer", "Thermonuclear Smoke Devil", 
-                                    "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Zulrah"]
+                                    "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Yama", "Zulrah"]
     },
     "Clues": {
         # Kaikki cluet samaa
