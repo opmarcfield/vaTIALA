@@ -67,9 +67,9 @@ const CUSTOM_CATEGORIES = {
 function displayCategoryLeaders(playersData) {
   const categories = ["Bosses", "Clues", "Minigames"];
   const catIcons = {
-    Bosses:    "./images/Obor Icon.png",
+    Bosses:    "./images/Obor icon.png",
     Clues:     "./images/Clue Scrolls (all) icon.png",
-    Minigames: "./images/Tempoross Icon.png"
+    Minigames: "./images/Tempoross icon.png"
   };
 
   const table = document.createElement("table");
