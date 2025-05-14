@@ -1,5 +1,136 @@
-const PLAYERS = ["vaOPA", "vaPEEXI", "vaRautaMake", "vaROSQIS"];
 
+const PLAYERS = ["vaOPA", "vaPEEXI", "vaRautaMake", "vaROSQIS"];
+const leaderColors = {
+  vaOPA:      "purple",
+  vaPEEXI:    "black",
+  vaRautaMake:"white",
+  vaROSQIS:   "blue"
+};
+const CUSTOM_CATEGORIES = {
+  Combat: {
+    skills:    ["Attack", "Defence", "Hitpoints", "Magic", "Prayer", "Ranged", "Strength"],
+    minigames: []
+  },
+  Gathering: {
+    skills:    ["Farming", "Fishing", "Hunter", "Mining", "Woodcutting"],
+    minigames: []
+  },
+  Production: {
+    skills:    ["Cooking", "Crafting", "Fletching", "Herblore", "Runecraft", "Smithing"],
+    minigames: []
+  },
+  Utility: {
+    skills:    ["Agility", "Construction", "Firemaking", "Slayer", "Thieving"],
+    minigames: []
+  },
+  Bosses: {
+    skills:    [],
+    minigames: [
+      "Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio",
+      "Barrows", "Bryophyta", "Callisto", "Calvarion", "Cerberus",
+      "Chaos Elemental", "Chaos Fanatic", "Commander Zilyana", "Corporeal Beast",
+      "Crazy Archaeologist", "Dagannoth Prime", "Dagannoth Rex", "Dagannoth Supreme",
+      "Deranged Archaeologist", "Duke Sucellus", "General Graardor", "Giant Mole",
+      "Grotesque Guardians", "Hespori", "Kalphite Queen", "King Black Dragon",
+      "Kraken", "Kree'Arra", "K'ril Tsutsaroth", "Lunar Chests", "Mimic",
+      "Nex", "Nightmare", "Phosani's Nightmare", "Obor", "Phantom Muspah",
+      "Sarachnis", "Scorpia", "Scurrius", "Skotizo", "Sol Heredit",
+      "Spindel", "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl",
+      "The Leviathan", "The Royal Titans", "The Whisperer", "Thermonuclear Smoke Devil",
+      "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion",
+      "Vorkath", "Yama", "Zalcano", "Zulrah"
+    ]
+  },
+  Clues: {
+    skills:    [],
+    minigames: [
+      "Clue Scrolls (all)",
+      "Clue Scrolls (beginner)",
+      "Clue Scrolls (easy)",
+      "Clue Scrolls (medium)",
+      "Clue Scrolls (hard)",
+      "Clue Scrolls (elite)",
+      "Clue Scrolls (master)"
+    ]
+  },
+  "Collection log": {
+    skills:    [],
+    minigames: ["Collections Logged"]
+  },
+  Minigames: {
+    skills:    [],
+    minigames: ["Tempoross", "Wintertodt", "Rifts closed", "Zalcano"]
+  }
+};
+
+
+function displayCategoryLeaders(playersData) {
+  const categories = ["Bosses", "Clues", "Minigames"];
+  const catIcons = {
+    Bosses:    "./images/Zalcano Icon.png",
+    Clues:     "./images/Clue Scrolls (all) icon.png",
+    Minigames: "./images/Zulrah icon.png"
+  };
+
+  const table = document.createElement("table");
+  table.border = "1";
+  table.style.width = "100%";
+
+  // header
+  const headerRow = document.createElement("tr");
+  ["Category","Leader","Total"].forEach(txt => {
+    const th = document.createElement("th");
+    th.textContent = txt;
+    headerRow.appendChild(th);
+  });
+  table.appendChild(headerRow);
+
+  // populate rows
+  categories.forEach(cat => {
+    const ranked = rankPlayersByCategory(playersData, cat);
+    if (ranked.length === 0) {
+      return;  // <<–– nothing to render here
+    }
+    const top = ranked[0];
+    const row = document.createElement("tr");
+
+    // Category + Icon
+    const catCell = document.createElement("td");
+    const img = document.createElement("img");
+    img.src = catIcons[cat] || "./images/default-icon.png";
+    img.alt = cat;
+    img.style.width = img.style.height = "24px";
+    img.style.marginRight = "6px";
+    img.style.verticalAlign = "middle";
+    catCell.appendChild(img);
+    catCell.appendChild(document.createTextNode(cat));
+    row.appendChild(catCell);
+
+    // Leader
+    const leaderCell = document.createElement("td");
+    leaderCell.textContent = top.name;
+    leaderCell.style.color = leaderColors[top.name] || "black";
+    leaderCell.style.fontWeight = "bold";
+    row.appendChild(leaderCell);
+
+    // Total
+    const totalCell = document.createElement("td");
+    totalCell.textContent = top.gains[cat].toLocaleString();
+    row.appendChild(totalCell);
+
+    table.appendChild(row);
+  });
+
+  // wrap in box
+  const box = document.createElement("div");
+  box.classList.add("category-box");
+  const heading = document.createElement("h2");
+  heading.textContent = "Category Leaders";
+  box.appendChild(heading);
+  box.appendChild(table);
+
+  document.getElementById("results").appendChild(box);
+}
 async function fetchPlayerData(playerName) {
   const url = `./data/${playerName}.json`;  // e.g. ./data/vaPEEXI.json
   const response = await fetch(url);
@@ -72,14 +203,6 @@ async function displayHighestLevels() {
     "Runecraft": "./images/Runecraft icon.png",
     "Hunter": "./images/Hunter icon.png",
     "Construction": "./images/Construction icon.png"
-    };
-  
-    // Mapping of leaders to their respective colors
-    const leaderColors = {
-    "vaOPA": "purple",
-    "vaPEEXI": "black",
-    "vaRautaMake": "white",
-    "vaROSQIS": "blue"
     };
   
     // Create the table
@@ -314,11 +437,13 @@ async function displayHighestLevels() {
             const data = await fetchPlayerData(player);
             const gains = calculateGains(data.snapshots);
             const minigameChanges = getMinigameChanges(data.snapshots);
+            const lastSnap = data.snapshots[data.snapshots.length - 1];
             playersData.push({
               name: data.player_name,
-              gains,
+              gains: calculateGains(data.snapshots),
               skillChanges: getSkillLevelChanges(data.snapshots),
-              minigameChanges: getMinigameChanges(data.snapshots)
+              minigameChanges: getMinigameChanges(data.snapshots),
+              latestMinigames: lastSnap.minigames 
             });
           } catch (err) {
             console.error("Error fetching/parsing player:", player, err);
@@ -397,9 +522,110 @@ async function displayHighestLevels() {
         });
       
         skillChangesBox.appendChild(gridContainer);
-        // **Append the skillChangesBox BEFORE you build the tables.**
+        // **Append the skillChangesBox BEFORE you build the tables.**git
         container.appendChild(skillChangesBox);
         await displayHighestLevels();
+        displayCategoryLeaders(playersData);
+        /**
+ * Renders a box with an <h2>title</h2> and a table of:
+ *   Item | Leader | Count
+ *
+ * @param {string} title       The heading to use ("Boss Leaders", etc.)
+ * @param {string[]} items     Array of keys in latestMinigames to show
+ * @param {Array} playersData  Your enriched data from main()
+ * @param {Object} iconMap     Map itemName → icon URL
+ */
+function displayItemLeaders(title, items, playersData, iconMap = {}) {
+  // build table skeleton
+  const tbl = document.createElement("table");
+  tbl.border = "1";
+  tbl.style.width = "100%";
+
+  const hdr = document.createElement("tr");
+  ["Item", "Leader", "Count"].forEach(text => {
+    const th = document.createElement("th");
+    th.textContent = text;
+    hdr.appendChild(th);
+  });
+  tbl.appendChild(hdr);
+
+  // for each boss/minigame/clue
+  items.forEach(item => {
+    // 1) figure out the top score
+    let topCount = -1, topPlayer = null;
+    playersData.forEach(p => {
+      const count = p.latestMinigames[item]?.score ?? 0;
+      if (count > topCount) {
+        topCount = count;
+        topPlayer = p.name;
+      }
+    });
+    if (topCount <= 0) {
+      return;    // <— nothing to render for this item
+    }
+    // render row
+    const row = document.createElement("tr");
+
+    // item + icon
+    const cellItem = document.createElement("td");
+    const img = document.createElement("img");
+
+    const rawPath = `./images/${item} icon.png`;
+    
+    img.src = iconMap[item]
+              ? iconMap[item]
+              : encodeURI(rawPath);
+    img.alt = item + " icon";
+    img.style.width = img.style.height = "24px";
+    img.style.marginRight = "6px";
+    img.style.verticalAlign = "middle";
+    cellItem.appendChild(img);
+    cellItem.appendChild(document.createTextNode(item));
+    row.appendChild(cellItem);
+
+    // leader (with color)
+    const cellLeader = document.createElement("td");
+    cellLeader.textContent = topPlayer || "–";
+    cellLeader.style.fontWeight = "bold";
+    cellLeader.style.color      = leaderColors[topPlayer] || "black";
+    row.appendChild(cellLeader);
+
+    // count
+    const cellCount = document.createElement("td");
+    cellCount.textContent = topCount.toLocaleString();
+    row.appendChild(cellCount);
+
+    tbl.appendChild(row);
+  });
+
+  // wrap & append
+  const box = document.createElement("div");
+  box.classList.add("category-box");
+  const h2 = document.createElement("h2");
+  h2.textContent = title;
+  box.appendChild(h2);
+  box.appendChild(tbl);
+
+  document.getElementById("results").appendChild(box);
+}
+         // **NOW** hand off to the three new renderers:
+        displayItemLeaders(
+        "Boss Leaders",
+        CUSTOM_CATEGORIES.Bosses.minigames,
+        playersData
+        );
+
+        displayItemLeaders(
+        "Clue Leaders",
+        CUSTOM_CATEGORIES.Clues.minigames,
+        playersData
+        );
+
+        displayItemLeaders(
+        "Minigame Leaders",
+        CUSTOM_CATEGORIES.Minigames.minigames,
+        playersData
+        );
 
         // --- CATEGORY SWITCHER DROPDOWN ---
         // (Only define these variables once, after Skill Leaders table)
@@ -613,3 +839,5 @@ async function displayHighestLevels() {
       }
       
       main();
+
+  
