@@ -67,9 +67,9 @@ const CUSTOM_CATEGORIES = {
 function displayCategoryLeaders(playersData) {
   const categories = ["Bosses", "Clues", "Minigames"];
   const catIcons = {
-    Bosses:    "./images/Zalcano Icon.png",
+    Bosses:    "./images/Obor Icon.png",
     Clues:     "./images/Clue Scrolls (all) icon.png",
-    Minigames: "./images/Zulrah icon.png"
+    Minigames: "./images/Tempoross Icon.png"
   };
 
   const table = document.createElement("table");
