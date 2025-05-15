@@ -266,7 +266,63 @@ async function displayHighestLevels() {
   
     // Add the table inside the box
     categoryBox.appendChild(table);
-  
+
+    // --- NEW: Side-by-side Skill Table ---
+    // Build a table with skills as rows and players as columns
+    const playerSkillTable = document.createElement("table");
+    playerSkillTable.border = "1";
+    playerSkillTable.style.width = "100%";
+    playerSkillTable.style.marginTop = "24px";
+
+    // Gather latest skill data for each player
+    const playerData = await Promise.all(PLAYERS.map(fetchPlayerData));
+    const latestSnapshots = playerData.map(player => player.snapshots[player.snapshots.length - 1]);
+    const skillNames = Object.keys(latestSnapshots[0].skills);
+
+    // Header row: first cell empty, then player names
+    const headerRow2 = document.createElement("tr");
+    headerRow2.appendChild(document.createElement("th")).textContent = "Skill";
+    PLAYERS.forEach(player => {
+      const th = document.createElement("th");
+      th.textContent = player;
+      th.style.color = leaderColors[player] || "black";
+      headerRow2.appendChild(th);
+    });
+    playerSkillTable.appendChild(headerRow2);
+
+    // For each skill, add a row
+    skillNames.forEach(skill => {
+      const row = document.createElement("tr");
+      // Skill name cell with icon
+      const skillCell = document.createElement("td");
+      const skillIcon = document.createElement("img");
+      skillIcon.src = skillIcons[skill] || "./images/default-icon.png";
+      skillIcon.alt = `${skill} Icon`;
+      skillIcon.style.width = "24px";
+      skillIcon.style.height = "24px";
+      skillIcon.style.verticalAlign = "middle";
+      skillIcon.style.marginRight = "8px";
+      skillCell.appendChild(skillIcon);
+      skillCell.appendChild(document.createTextNode(skill));
+      row.appendChild(skillCell);
+      // Player cells
+      latestSnapshots.forEach(snap => {
+        const td = document.createElement("td");
+        td.textContent = snap.skills[skill].level;
+        row.appendChild(td);
+      });
+      playerSkillTable.appendChild(row);
+    });
+
+    // Wrapper for the new table
+    const sideTableBox = document.createElement("div");
+    sideTableBox.classList.add("category-box");
+    const heading2 = document.createElement("h3");
+    heading2.textContent = "All Players Skill Table";
+    sideTableBox.appendChild(heading2);
+    sideTableBox.appendChild(playerSkillTable);
+    categoryBox.appendChild(sideTableBox);
+
     // Append the entire category box to the results container
     const resultsContainer = document.getElementById("results");
     resultsContainer.appendChild(categoryBox);
