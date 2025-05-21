@@ -260,19 +260,19 @@ async function displayHighestLevels() {
     categoryBox.classList.add("category-box");
   
     // Add a heading for the highest levels table
-    const heading = document.createElement("h2");
-    heading.textContent = "Skill Leaders";
-    categoryBox.appendChild(heading);
+    //const heading = document.createElement("h2");
+    //heading.textContent = "Skill Leaders";
+    //categoryBox.appendChild(heading);
   
     // Add the table inside the box
-    categoryBox.appendChild(table);
+    //categoryBox.appendChild(table);
 
     // --- NEW: Side-by-side Skill Table ---
     // Build a table with skills as rows and players as columns
     const playerSkillTable = document.createElement("table");
     playerSkillTable.border = "1";
     playerSkillTable.style.width = "100%";
-    playerSkillTable.style.marginTop = "24px";
+    playerSkillTable.style.marginTop = "2px";
 
     // Gather latest skill data for each player
     const playerData = await Promise.all(PLAYERS.map(fetchPlayerData));
@@ -285,6 +285,8 @@ async function displayHighestLevels() {
     PLAYERS.forEach(player => {
       const th = document.createElement("th");
       th.textContent = player;
+      th.style.whiteSpace = "normal"; 
+      th.style.wordBreak = "break-word";
       th.style.color = leaderColors[player] || "black";
       headerRow2.appendChild(th);
     });
@@ -293,7 +295,7 @@ async function displayHighestLevels() {
     // For each skill, add a row
     skillNames.forEach(skill => {
       const row = document.createElement("tr");
-      // Skill name cell with icon
+      // Skill icon only (no text)
       const skillCell = document.createElement("td");
       const skillIcon = document.createElement("img");
       skillIcon.src = skillIcons[skill] || "./images/default-icon.png";
@@ -301,26 +303,43 @@ async function displayHighestLevels() {
       skillIcon.style.width = "24px";
       skillIcon.style.height = "24px";
       skillIcon.style.verticalAlign = "middle";
-      skillIcon.style.marginRight = "8px";
       skillCell.appendChild(skillIcon);
-      skillCell.appendChild(document.createTextNode(skill));
       row.appendChild(skillCell);
-      // Player cells
-      latestSnapshots.forEach(snap => {
+      // Find the highest level for this skill
+      let maxLevel = -1;
+      let maxIndexes = [];
+      latestSnapshots.forEach((snap, idx) => {
+        const lvl = snap.skills[skill].level;
+        if (lvl > maxLevel) {
+          maxLevel = lvl;
+          maxIndexes = [idx];
+        } else if (lvl === maxLevel) {
+          maxIndexes.push(idx);
+        }
+      });
+      // Player cells, add crown to highest
+      latestSnapshots.forEach((snap, idx) => {
         const td = document.createElement("td");
         td.textContent = snap.skills[skill].level;
+        if (maxIndexes.includes(idx)) {
+          td.textContent += ' 👑';
+        }
         row.appendChild(td);
       });
       playerSkillTable.appendChild(row);
     });
 
     // Wrapper for the new table
+    const scrollContainer = document.createElement("div");
+    scrollContainer.style.overflowX = "auto";
     const sideTableBox = document.createElement("div");
     sideTableBox.classList.add("category-box");
-    const heading2 = document.createElement("h3");
-    heading2.textContent = "All Players Skill Table";
+    const heading2 = document.createElement("h2");
+    heading2.textContent = "Skill Table";
+    heading2.style.textAlign = "center";
     sideTableBox.appendChild(heading2);
-    sideTableBox.appendChild(playerSkillTable);
+    scrollContainer.appendChild(playerSkillTable);
+    sideTableBox.appendChild(scrollContainer);
     categoryBox.appendChild(sideTableBox);
 
     // Append the entire category box to the results container

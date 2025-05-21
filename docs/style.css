@@ -76,7 +76,9 @@ body {
   table {
     border-collapse: collapse;
     margin-bottom: 2em;
-    width: 100%;
+    width: auto;
+    min-width: 100%;
+    border-collapse: collapse;
     background-color: #a1887f; /* Light Wood Beige */
     border-radius: 8px;
     padding: 10px;
