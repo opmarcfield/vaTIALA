@@ -38,8 +38,12 @@ const CUSTOM_CATEGORIES = {
       "Spindel", "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl",
       "The Leviathan", "The Royal Titans", "The Whisperer", "Thermonuclear Smoke Devil",
       "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion",
-      "Vorkath", "Yama", "Zalcano", "Zulrah"
+      "Vorkath", "Yama", "Zulrah", "Tombs of Amascut", "Tombs of Amascut: Expert Mode"
     ]
+  },
+  Raids: {
+    skills:    [],
+    minigames: ["Tombs of Amascut", "Tombs of Amascut: Expert Mode","Chambers of Xeric", "Chambers of Xeric: Challenge Mode", "Theatre of Blood", "Theatre of Blood: Hard Mode"]
   },
   Clues: {
     skills:    [],
@@ -689,6 +693,12 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
         CUSTOM_CATEGORIES.Bosses.minigames,
         playersData
         );
+
+        displayItemLeaders(
+          "Raid Leaders",
+          CUSTOM_CATEGORIES.Raids.minigames,
+          playersData
+          );
 
         displayItemLeaders(
         "Clue Leaders",
