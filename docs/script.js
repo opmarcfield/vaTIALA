@@ -38,7 +38,7 @@ const CUSTOM_CATEGORIES = {
       "Spindel", "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl",
       "The Leviathan", "The Royal Titans", "The Whisperer", "Thermonuclear Smoke Devil",
       "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion",
-      "Vorkath", "Yama", "Zulrah", "Tombs of Amascut", "Tombs of Amascut: Expert Mode"
+      "Vorkath", "Yama", "Zulrah"
     ]
   },
   Raids: {
