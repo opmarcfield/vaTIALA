@@ -43,7 +43,7 @@ const CUSTOM_CATEGORIES = {
   },
   Raids: {
     skills:    [],
-    minigames: ["Tombs of Amascut", "Tombs of Amascut: Expert Mode","Chambers of Xeric", "Chambers of Xeric: Challenge Mode", "Theatre of Blood", "Theatre of Blood: Hard Mode"]
+    minigames: ["Tombs of Amascut", "Tombs of Amascut - Expert Mode","Chambers of Xeric", "Chambers of Xeric: Challenge Mode", "Theatre of Blood", "Theatre of Blood: Hard Mode"]
   },
   Clues: {
     skills:    [],
