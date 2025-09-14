@@ -110189,6 +110189,511 @@
           "minigames_total_score": 308
         }
       }
+    },
+    {
+      "timestamp": "2025-09-14T04:14:26.995088Z",
+      "skills": {
+        "Overall": {
+          "rank": 431898,
+          "level": 1977,
+          "experience": 119364123
+        },
+        "Attack": {
+          "rank": 677235,
+          "level": 91,
+          "experience": 5908546
+        },
+        "Defence": {
+          "rank": 651473,
+          "level": 90,
+          "experience": 5431061
+        },
+        "Strength": {
+          "rank": 742903,
+          "level": 97,
+          "experience": 11004695
+        },
+        "Hitpoints": {
+          "rank": 546319,
+          "level": 99,
+          "experience": 15196643
+        },
+        "Ranged": {
+          "rank": 706884,
+          "level": 96,
+          "experience": 9827900
+        },
+        "Prayer": {
+          "rank": 403888,
+          "level": 85,
+          "experience": 3278627
+        },
+        "Magic": {
+          "rank": 507685,
+          "level": 98,
+          "experience": 12789891
+        },
+        "Cooking": {
+          "rank": 528021,
+          "level": 93,
+          "experience": 7268380
+        },
+        "Woodcutting": {
+          "rank": 740864,
+          "level": 80,
+          "experience": 2060148
+        },
+        "Fletching": {
+          "rank": 977969,
+          "level": 75,
+          "experience": 1261178
+        },
+        "Fishing": {
+          "rank": 426597,
+          "level": 87,
+          "experience": 4091818
+        },
+        "Firemaking": {
+          "rank": 1076805,
+          "level": 78,
+          "experience": 1711415
+        },
+        "Crafting": {
+          "rank": 571821,
+          "level": 82,
+          "experience": 2455596
+        },
+        "Smithing": {
+          "rank": 671944,
+          "level": 76,
+          "experience": 1401383
+        },
+        "Mining": {
+          "rank": 799830,
+          "level": 77,
+          "experience": 1536289
+        },
+        "Herblore": {
+          "rank": 202605,
+          "level": 92,
+          "experience": 6828772
+        },
+        "Agility": {
+          "rank": 658048,
+          "level": 76,
+          "experience": 1400813
+        },
+        "Thieving": {
+          "rank": 608685,
+          "level": 77,
+          "experience": 1580582
+        },
+        "Slayer": {
+          "rank": 414412,
+          "level": 92,
+          "experience": 6848459
+        },
+        "Farming": {
+          "rank": 337989,
+          "level": 97,
+          "experience": 11479764
+        },
+        "Runecraft": {
+          "rank": 419426,
+          "level": 77,
+          "experience": 1561075
+        },
+        "Hunter": {
+          "rank": 523584,
+          "level": 80,
+          "experience": 2009858
+        },
+        "Construction": {
+          "rank": 655584,
+          "level": 82,
+          "experience": 2431230
+        }
+      },
+      "minigames": {
+        "BH1": {
+          "rank": -1,
+          "score": -1
+        },
+        "BH2": {
+          "rank": -1,
+          "score": -1
+        },
+        "BH3": {
+          "rank": -1,
+          "score": -1
+        },
+        "BH4": {
+          "rank": -1,
+          "score": -1
+        },
+        "BH5": {
+          "rank": -1,
+          "score": -1
+        },
+        "BH6": {
+          "rank": -1,
+          "score": -1
+        },
+        "Clue Scrolls (all)": {
+          "rank": 237693,
+          "score": 290
+        },
+        "Clue Scrolls (beginner)": {
+          "rank": 207571,
+          "score": 29
+        },
+        "Clue Scrolls (easy)": {
+          "rank": 397264,
+          "score": 17
+        },
+        "Clue Scrolls (medium)": {
+          "rank": 477492,
+          "score": 24
+        },
+        "Clue Scrolls (hard)": {
+          "rank": 133145,
+          "score": 185
+        },
+        "Clue Scrolls (elite)": {
+          "rank": 157742,
+          "score": 33
+        },
+        "Clue Scrolls (master)": {
+          "rank": 381201,
+          "score": 2
+        },
+        "LMS - Rank": {
+          "rank": 380576,
+          "score": 510
+        },
+        "PVPARENA": {
+          "rank": 48320,
+          "score": 2664
+        },
+        "Soul Wars Zeal": {
+          "rank": -1,
+          "score": -1
+        },
+        "Rifts closed": {
+          "rank": 181152,
+          "score": 209
+        },
+        "Colosseum Glory": {
+          "rank": -1,
+          "score": -1
+        },
+        "Collections Logged": {
+          "rank": -1,
+          "score": -1
+        },
+        "Abyssal Sire": {
+          "rank": -1,
+          "score": -1
+        },
+        "Alchemical Hydra": {
+          "rank": -1,
+          "score": -1
+        },
+        "Amoxliatl": {
+          "rank": 63693,
+          "score": 57
+        },
+        "Araxxor": {
+          "rank": -1,
+          "score": -1
+        },
+        "Artio": {
+          "rank": -1,
+          "score": -1
+        },
+        "Barrows": {
+          "rank": 661965,
+          "score": 60
+        },
+        "Bryophyta": {
+          "rank": -1,
+          "score": -1
+        },
+        "Callisto": {
+          "rank": 223223,
+          "score": 22
+        },
+        "Calvarion": {
+          "rank": 206799,
+          "score": 20
+        },
+        "Cerberus": {
+          "rank": -1,
+          "score": -1
+        },
+        "Chambers of Xeric": {
+          "rank": 221769,
+          "score": 36
+        },
+        "Chambers of Xeric: Challenge Mode": {
+          "rank": -1,
+          "score": -1
+        },
+        "Chaos Elemental": {
+          "rank": -1,
+          "score": -1
+        },
+        "Chaos Fanatic": {
+          "rank": -1,
+          "score": -1
+        },
+        "Commander Zilyana": {
+          "rank": 309731,
+          "score": 9
+        },
+        "Corporeal Beast": {
+          "rank": -1,
+          "score": -1
+        },
+        "Crazy Archaeologist": {
+          "rank": 494019,
+          "score": 10
+        },
+        "Dagannoth Prime": {
+          "rank": 366647,
+          "score": 26
+        },
+        "Dagannoth Rex": {
+          "rank": 592584,
+          "score": 17
+        },
+        "Dagannoth Supreme": {
+          "rank": 372331,
+          "score": 24
+        },
+        "Deranged Archaeologist": {
+          "rank": -1,
+          "score": -1
+        },
+        "Doom of Mokhaiotl": {
+          "rank": -1,
+          "score": -1
+        },
+        "Duke Sucellus": {
+          "rank": -1,
+          "score": -1
+        },
+        "General Graardor": {
+          "rank": 276504,
+          "score": 95
+        },
+        "Giant Mole": {
+          "rank": -1,
+          "score": -1
+        },
+        "Grotesque Guardians": {
+          "rank": 245864,
+          "score": 54
+        },
+        "Hespori": {
+          "rank": 119033,
+          "score": 85
+        },
+        "Kalphite Queen": {
+          "rank": -1,
+          "score": -1
+        },
+        "King Black Dragon": {
+          "rank": -1,
+          "score": -1
+        },
+        "Kraken": {
+          "rank": 306707,
+          "score": 869
+        },
+        "Kree'Arra": {
+          "rank": -1,
+          "score": -1
+        },
+        "K'ril Tsutsaroth": {
+          "rank": 217655,
+          "score": 41
+        },
+        "Lunar Chests": {
+          "rank": 27698,
+          "score": 308
+        },
+        "Mimic": {
+          "rank": -1,
+          "score": -1
+        },
+        "Nex": {
+          "rank": -1,
+          "score": -1
+        },
+        "Nightmare": {
+          "rank": -1,
+          "score": -1
+        },
+        "Phosani's Nightmare": {
+          "rank": -1,
+          "score": -1
+        },
+        "Obor": {
+          "rank": 193994,
+          "score": 9
+        },
+        "Phantom Muspah": {
+          "rank": -1,
+          "score": -1
+        },
+        "Sarachnis": {
+          "rank": -1,
+          "score": -1
+        },
+        "Scorpia": {
+          "rank": -1,
+          "score": -1
+        },
+        "Scurrius": {
+          "rank": 348398,
+          "score": 20
+        },
+        "Skotizo": {
+          "rank": 334831,
+          "score": 18
+        },
+        "Sol Heredit": {
+          "rank": -1,
+          "score": -1
+        },
+        "Spindel": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tempoross": {
+          "rank": 842787,
+          "score": 11
+        },
+        "The Gauntlet": {
+          "rank": 183775,
+          "score": 20
+        },
+        "The Corrupted Gauntlet": {
+          "rank": -1,
+          "score": -1
+        },
+        "The Hueycoatl": {
+          "rank": 123226,
+          "score": 34
+        },
+        "The Leviathan": {
+          "rank": -1,
+          "score": -1
+        },
+        "The Royal Titans": {
+          "rank": 102752,
+          "score": 159
+        },
+        "The Whisperer": {
+          "rank": -1,
+          "score": -1
+        },
+        "Theatre of Blood": {
+          "rank": -1,
+          "score": -1
+        },
+        "Theatre of Blood: Hard Mode": {
+          "rank": -1,
+          "score": -1
+        },
+        "Thermonuclear Smoke Devil": {
+          "rank": -1,
+          "score": -1
+        },
+        "Tombs of Amascut": {
+          "rank": 87970,
+          "score": 72
+        },
+        "Tombs of Amascut - Expert Mode": {
+          "rank": 87259,
+          "score": 61
+        },
+        "TzKal-Zuk": {
+          "rank": -1,
+          "score": -1
+        },
+        "TzTok-Jad": {
+          "rank": -1,
+          "score": -1
+        },
+        "Vardorvis": {
+          "rank": -1,
+          "score": -1
+        },
+        "Venenatis": {
+          "rank": -1,
+          "score": -1
+        },
+        "Vet'ion": {
+          "rank": 246808,
+          "score": 5
+        },
+        "Vorkath": {
+          "rank": -1,
+          "score": -1
+        },
+        "Wintertodt": {
+          "rank": 997099,
+          "score": 80
+        },
+        "Yama": {
+          "rank": -1,
+          "score": -1
+        },
+        "Zalcano": {
+          "rank": 307337,
+          "score": 8
+        },
+        "Zulrah": {
+          "rank": -1,
+          "score": -1
+        }
+      },
+      "custom_categories": {
+        "Combat": {
+          "skills_total_xp": 63437363,
+          "minigames_total_score": 0
+        },
+        "Gathering": {
+          "skills_total_xp": 21177877,
+          "minigames_total_score": 0
+        },
+        "Production": {
+          "skills_total_xp": 20776384,
+          "minigames_total_score": 0
+        },
+        "Utility": {
+          "skills_total_xp": 13972499,
+          "minigames_total_score": 0
+        },
+        "Bosses": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 1962
+        },
+        "Clues": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 290
+        },
+        "Collection log": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 0
+        },
+        "Minigames": {
+          "skills_total_xp": 0,
+          "minigames_total_score": 308
+        }
+      }
     }
   ]
 }
