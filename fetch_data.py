@@ -13,7 +13,7 @@ SKILLS = [
 
 # Minigames (remaining lines after the first 24)
 MINIGAMES = [
-    "BH1","BH2","BH3","BH4","BH5","BH6","Clue Scrolls (all)", 
+    "BH1","BH2","BH3","BH4","BH5","BH6","BH7","Clue Scrolls (all)", 
     "Clue Scrolls (beginner)", "Clue Scrolls (easy)", "Clue Scrolls (medium)", 
     "Clue Scrolls (hard)", "Clue Scrolls (elite)", "Clue Scrolls (master)", 
     "LMS - Rank", "PVPARENA", "Soul Wars Zeal", "Rifts closed", "Colosseum Glory", "Collections Logged",
