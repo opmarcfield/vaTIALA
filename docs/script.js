@@ -6,6 +6,45 @@ const leaderColors = {
   vaRautaMake:"white",
   vaROSQIS:   "blue"
 };
+// Pretty display names for certain minigame keys
+const DISPLAY_NAME = {
+  "PVPARENA": "PvP Arena - Rank"
+};
+function prettyName(name) {
+  return DISPLAY_NAME[name] || name;
+}
+// --- Virtual level helpers (OSRS) ---
+// Build XP thresholds for levels 1..126 using the standard OSRS formula
+function buildXpThresholds(maxLevel = 126) {
+  const thresholds = [0]; // index 0 unused; thresholds[1] = 0 XP
+  let points = 0;
+  thresholds[1] = 0;
+  for (let lvl = 2; lvl <= maxLevel; lvl++) {
+    points += Math.floor((lvl - 1) + 300 * Math.pow(2, (lvl - 1) / 7));
+    thresholds[lvl] = Math.floor(points / 4);
+  }
+  return thresholds;
+}
+const OSRS_XP_THRESHOLDS = buildXpThresholds(126);
+
+function xpToVirtualLevel(xp) {
+  // Find highest level such that xp >= threshold
+  let lvl = 1;
+  for (let i = 2; i < OSRS_XP_THRESHOLDS.length; i++) {
+    if (xp >= OSRS_XP_THRESHOLDS[i]) {
+      lvl = i;
+    } else {
+      break;
+    }
+  }
+  return lvl;
+}
+
+function getDisplayedLevel(skillName, storedLevel, storedXp) {
+  // Overall should keep the stored level; others use virtual levels from XP
+  if (skillName === "Overall") return storedLevel;
+  return xpToVirtualLevel(storedXp);
+}
 const CUSTOM_CATEGORIES = {
   Combat: {
     skills:    ["Attack", "Defence", "Hitpoints", "Magic", "Prayer", "Ranged", "Strength"],
@@ -57,9 +96,15 @@ const CUSTOM_CATEGORIES = {
       "Clue Scrolls (master)"
     ]
   },
-  "Collection log": {
+  Others: {
     skills:    [],
-    minigames: ["Collections Logged"]
+    minigames: [
+      "Collections Logged",
+      "Colosseum Glory",
+      "LMS - Rank",
+      "PVPARENA",
+      "Soul Wars Zeal"
+    ]
   },
   Minigames: {
     skills:    [],
@@ -162,7 +207,8 @@ async function getHighestLevels() {
     let playerWithHighestLevel = "";
 
     latestSnapshots.forEach((snapshot, index) => {
-      const level = snapshot.skills[skill].level;
+      const entry = snapshot.skills[skill];
+      const level = getDisplayedLevel(skill, entry.level, entry.experience);
       if (level > highestLevel) {
         highestLevel = level;
         playerWithHighestLevel = PLAYERS[index];
@@ -207,149 +253,148 @@ async function displayHighestLevels() {
     "Runecraft": "./images/Runecraft icon.png",
     "Hunter": "./images/Hunter icon.png",
     "Construction": "./images/Construction icon.png"
-    };
+  };
   
-    // Create the table
-    const table = document.createElement("table");
-    table.border = "1";
-    table.style.width = "100%";
+  // Create the table
+  const table = document.createElement("table");
+  table.border = "1";
+  table.style.width = "100%";
   
-    // Create the header row
-    const headerRow = document.createElement("tr");
-    const skillHeader = document.createElement("th");
-    skillHeader.textContent = "Skill";
-    const playerHeader = document.createElement("th");
-    playerHeader.textContent = "Leader";
-    const levelHeader = document.createElement("th");
-    levelHeader.textContent = "LVL";
-    headerRow.appendChild(skillHeader);
-    headerRow.appendChild(playerHeader);
-    headerRow.appendChild(levelHeader);
-    table.appendChild(headerRow);
+  // Create the header row
+  const headerRow = document.createElement("tr");
+  const skillHeader = document.createElement("th");
+  skillHeader.textContent = "Skill";
+  const playerHeader = document.createElement("th");
+  playerHeader.textContent = "Leader";
+  const levelHeader = document.createElement("th");
+  levelHeader.textContent = "LVL (virtual)";
+  headerRow.appendChild(skillHeader);
+  headerRow.appendChild(playerHeader);
+  headerRow.appendChild(levelHeader);
+  table.appendChild(headerRow);
   
-    // Populate the table with data
-    Object.entries(highestLevels).forEach(([skill, data]) => {
-      const row = document.createElement("tr");
+  // Populate the table with data
+  Object.entries(highestLevels).forEach(([skill, data]) => {
+    const row = document.createElement("tr");
   
-      // Skill cell with icon
-      const skillCell = document.createElement("td");
-      const skillIcon = document.createElement("img");
-      skillIcon.src = skillIcons[skill] || "./images/default-icon.png"; // Use a default icon if no mapping exists
-      skillIcon.alt = `${skill} Icon`;
-      skillIcon.style.width = "24px";
-      skillIcon.style.height = "24px";
-      skillIcon.style.verticalAlign = "middle";
-      skillIcon.style.marginRight = "8px"; // Space between icon and text
-      skillCell.appendChild(skillIcon);
-      skillCell.appendChild(document.createTextNode(skill));
-      row.appendChild(skillCell);
+    // Skill cell with icon
+    const skillCell = document.createElement("td");
+    const skillIcon = document.createElement("img");
+    skillIcon.src = skillIcons[skill] || "./images/default-icon.png"; // Use a default icon if no mapping exists
+    skillIcon.alt = `${skill} Icon`;
+    skillIcon.style.width = "24px";
+    skillIcon.style.height = "24px";
+    skillIcon.style.verticalAlign = "middle";
+    skillIcon.style.marginRight = "8px"; // Space between icon and text
+    skillCell.appendChild(skillIcon);
+    skillCell.appendChild(document.createTextNode(skill));
+    row.appendChild(skillCell);
   
-      // Player cell with specific color
-      const playerCell = document.createElement("td");
-      playerCell.textContent = data.player;
-      playerCell.style.color = leaderColors[data.player] || "black"; // Use black as default if no color is defined
-      playerCell.style.fontWeight = "bold"; // Make text bold
-      row.appendChild(playerCell);
+    // Player cell with specific color
+    const playerCell = document.createElement("td");
+    playerCell.textContent = data.player;
+    playerCell.style.color = leaderColors[data.player] || "black"; // Use black as default if no color is defined
+    playerCell.style.fontWeight = "bold"; // Make text bold
+    row.appendChild(playerCell);
   
-      // Level cell
-      const levelCell = document.createElement("td");
-      levelCell.textContent = data.level;
-      row.appendChild(levelCell);
+    // Level cell
+    const levelCell = document.createElement("td");
+    levelCell.textContent = data.level; // already virtual from getHighestLevels()
+    row.appendChild(levelCell);
   
-      table.appendChild(row);
+    table.appendChild(row);
+  });
+  
+  // Create a wrapper for the highest levels table
+  const categoryBox = document.createElement("div");
+  categoryBox.classList.add("category-box");
+  
+  // --- NEW: Side-by-side Skill Table ---
+  // Build a table with skills as rows and players as columns
+  const playerSkillTable = document.createElement("table");
+  playerSkillTable.border = "1";
+  playerSkillTable.style.width = "100%";
+  playerSkillTable.style.marginTop = "2px";
+
+  // Gather latest skill data for each player
+  const playerData = await Promise.all(PLAYERS.map(fetchPlayerData));
+  const latestSnapshots = playerData.map(player => player.snapshots[player.snapshots.length - 1]);
+  const skillNames = Object.keys(latestSnapshots[0].skills);
+
+  // Header row: first cell empty, then player names
+  const headerRow2 = document.createElement("tr");
+  headerRow2.appendChild(document.createElement("th")).textContent = "Skill";
+  PLAYERS.forEach(player => {
+    const th = document.createElement("th");
+    th.textContent = player;
+    th.style.whiteSpace = "normal"; 
+    th.style.wordBreak = "break-word";
+    th.style.color = leaderColors[player] || "black";
+    headerRow2.appendChild(th);
+  });
+  playerSkillTable.appendChild(headerRow2);
+
+  // For each skill, add a row
+  skillNames.forEach(skill => {
+    const row = document.createElement("tr");
+    // Skill icon only (no text)
+    const skillCell = document.createElement("td");
+    const skillIcon = document.createElement("img");
+    skillIcon.src = skillIcons[skill] || "./images/default-icon.png";
+    skillIcon.alt = `${skill} Icon`;
+    skillIcon.style.width = "24px";
+    skillIcon.style.height = "24px";
+    skillIcon.style.verticalAlign = "middle";
+    skillCell.appendChild(skillIcon);
+    row.appendChild(skillCell);
+    // Find the highest level for this skill
+    let maxLevel = -1;
+    let maxIndexes = [];
+    latestSnapshots.forEach((snap, idx) => {
+      const entry = snap.skills[skill];
+      const lvl = getDisplayedLevel(skill, entry.level, entry.experience);
+      if (lvl > maxLevel) {
+        maxLevel = lvl;
+        maxIndexes = [idx];
+      } else if (lvl === maxLevel) {
+        maxIndexes.push(idx);
+      }
     });
-  
-    // Create a wrapper for the highest levels table
-    const categoryBox = document.createElement("div");
-    categoryBox.classList.add("category-box");
-  
-    // Add a heading for the highest levels table
-    //const heading = document.createElement("h2");
-    //heading.textContent = "Skill Leaders";
-    //categoryBox.appendChild(heading);
-  
-    // Add the table inside the box
-    //categoryBox.appendChild(table);
-
-    // --- NEW: Side-by-side Skill Table ---
-    // Build a table with skills as rows and players as columns
-    const playerSkillTable = document.createElement("table");
-    playerSkillTable.border = "1";
-    playerSkillTable.style.width = "100%";
-    playerSkillTable.style.marginTop = "2px";
-
-    // Gather latest skill data for each player
-    const playerData = await Promise.all(PLAYERS.map(fetchPlayerData));
-    const latestSnapshots = playerData.map(player => player.snapshots[player.snapshots.length - 1]);
-    const skillNames = Object.keys(latestSnapshots[0].skills);
-
-    // Header row: first cell empty, then player names
-    const headerRow2 = document.createElement("tr");
-    headerRow2.appendChild(document.createElement("th")).textContent = "Skill";
-    PLAYERS.forEach(player => {
-      const th = document.createElement("th");
-      th.textContent = player;
-      th.style.whiteSpace = "normal"; 
-      th.style.wordBreak = "break-word";
-      th.style.color = leaderColors[player] || "black";
-      headerRow2.appendChild(th);
+    // Player cells, add crown to highest
+    latestSnapshots.forEach((snap, idx) => {
+      const td = document.createElement("td");
+      const entry = snap.skills[skill];
+      const vLvl = getDisplayedLevel(skill, entry.level, entry.experience);
+      td.textContent = vLvl;
+      if (maxIndexes.includes(idx)) {
+        const crown = document.createElement('span');
+        crown.textContent = '\uD83D\uDC51'; // crown emoji (??) as Unicode escape
+        crown.setAttribute('aria-label', 'leader');
+        crown.style.marginLeft = '6px';
+        td.appendChild(crown);
+      }
+      row.appendChild(td);
     });
-    playerSkillTable.appendChild(headerRow2);
+    playerSkillTable.appendChild(row);
+  });
 
-    // For each skill, add a row
-    skillNames.forEach(skill => {
-      const row = document.createElement("tr");
-      // Skill icon only (no text)
-      const skillCell = document.createElement("td");
-      const skillIcon = document.createElement("img");
-      skillIcon.src = skillIcons[skill] || "./images/default-icon.png";
-      skillIcon.alt = `${skill} Icon`;
-      skillIcon.style.width = "24px";
-      skillIcon.style.height = "24px";
-      skillIcon.style.verticalAlign = "middle";
-      skillCell.appendChild(skillIcon);
-      row.appendChild(skillCell);
-      // Find the highest level for this skill
-      let maxLevel = -1;
-      let maxIndexes = [];
-      latestSnapshots.forEach((snap, idx) => {
-        const lvl = snap.skills[skill].level;
-        if (lvl > maxLevel) {
-          maxLevel = lvl;
-          maxIndexes = [idx];
-        } else if (lvl === maxLevel) {
-          maxIndexes.push(idx);
-        }
-      });
-      // Player cells, add crown to highest
-      latestSnapshots.forEach((snap, idx) => {
-        const td = document.createElement("td");
-        td.textContent = snap.skills[skill].level;
-        if (maxIndexes.includes(idx)) {
-          td.textContent += ' 👑';
-        }
-        row.appendChild(td);
-      });
-      playerSkillTable.appendChild(row);
-    });
+  // Wrapper for the new table
+  const scrollContainer = document.createElement("div");
+  scrollContainer.style.overflowX = "auto";
+  const sideTableBox = document.createElement("div");
+  sideTableBox.classList.add("category-box");
+  const heading2 = document.createElement("h2");
+  heading2.textContent = "Skill Table";
+  heading2.style.textAlign = "center";
+  sideTableBox.appendChild(heading2);
+  scrollContainer.appendChild(playerSkillTable);
+  sideTableBox.appendChild(scrollContainer);
+  categoryBox.appendChild(sideTableBox);
 
-    // Wrapper for the new table
-    const scrollContainer = document.createElement("div");
-    scrollContainer.style.overflowX = "auto";
-    const sideTableBox = document.createElement("div");
-    sideTableBox.classList.add("category-box");
-    const heading2 = document.createElement("h2");
-    heading2.textContent = "Skill Table";
-    heading2.style.textAlign = "center";
-    sideTableBox.appendChild(heading2);
-    scrollContainer.appendChild(playerSkillTable);
-    sideTableBox.appendChild(scrollContainer);
-    categoryBox.appendChild(sideTableBox);
-
-    // Append the entire category box to the results container
-    const resultsContainer = document.getElementById("results");
-    resultsContainer.appendChild(categoryBox);
-  }
+  // Append the entire category box to the results container
+  const resultsContainer = document.getElementById("results");
+  resultsContainer.appendChild(categoryBox);
+}
   /**
    * Given the array of snapshots for one player,
    * returns an object with each tier's 'score' from the *latest* snapshot.
@@ -405,28 +450,30 @@ async function displayHighestLevels() {
     return enriched;
   }
   
-  function getSkillLevelChanges(snapshots) {
-    if (snapshots.length < 2) {
-      return []; // No previous snapshot to compare
-    }
-    const prev = snapshots[snapshots.length - 2]; // second to last
-    const curr = snapshots[snapshots.length - 1]; // last
-  
-    const changes = [];
-    for (const skill in curr.skills) {
-      const oldLevel = prev.skills[skill].level;
-      const newLevel = curr.skills[skill].level;
-      if (newLevel > oldLevel) {
-        changes.push({
-          skill,
-          oldLevel,
-          newLevel,
-          diff: newLevel - oldLevel
-        });
-      }
-    }
-    return changes;
+function getSkillLevelChanges(snapshots) {
+  if (snapshots.length < 2) {
+    return []; // No previous snapshot to compare
   }
+  const prev = snapshots[snapshots.length - 2]; // second to last
+  const curr = snapshots[snapshots.length - 1]; // last
+
+  const changes = [];
+  for (const skill in curr.skills) {
+    const prevEntry = prev.skills[skill];
+    const currEntry = curr.skills[skill];
+    const oldLevel = getDisplayedLevel(skill, prevEntry.level, prevEntry.experience);
+    const newLevel = getDisplayedLevel(skill, currEntry.level, currEntry.experience);
+    if (newLevel > oldLevel) {
+      changes.push({
+        skill,
+        oldLevel,
+        newLevel,
+        diff: newLevel - oldLevel
+      });
+    }
+  }
+  return changes;
+}
 
   function getMinigameChanges(snapshots) {
     if (snapshots.length < 2) return [];
@@ -561,37 +608,58 @@ async function displayHighestLevels() {
           const ul = document.createElement("ul");
           player.skillChanges.forEach((change) => {
             const li = document.createElement("li");
-            li.innerHTML = `
-              <img
-                src="./images/${change.skill} icon.png"
-                alt="${change.skill} Icon"
-                style="width:20px; height:20px; vertical-align:middle; margin:0 5px;"
-              />
-              ${change.oldLevel} ➾ ${change.newLevel}
-            `;
+
+            // icon
+            const img = document.createElement("img");
+            img.src = `./images/${change.skill} icon.png`;
+            img.alt = `${change.skill} Icon`;
+            img.style.width = "20px";
+            img.style.height = "20px";
+            img.style.verticalAlign = "middle";
+            img.style.margin = "0 5px";
+
+            // text pieces with a safe Unicode arrow (? = U+27BE)
+            const before = document.createTextNode(`${change.oldLevel} `);
+            const arrow = document.createElement("span");
+            arrow.textContent = "\u27BE"; // heavy teardrop-shanked rightwards arrow
+            arrow.setAttribute("aria-hidden", "true");
+            arrow.style.margin = "0 4px";
+            const after = document.createTextNode(`${change.newLevel}`);
+
+            li.appendChild(img);
+            li.appendChild(before);
+            li.appendChild(arrow);
+            li.appendChild(after);
+
             ul.appendChild(li);
           });
           player.minigameChanges.forEach(change => {
             if (change.name !== "Clue Scrolls (all)") {
               const li = document.createElement("li");
-          
+
               // 1. create the img
               const img = document.createElement("img");
               img.src   = `./images/${change.name} icon.png`;
-              img.alt   = `${change.name} Icon`;
-              img.title         = `${change.name}`;
+              img.alt   = `${prettyName(change.name)} Icon`;
+              img.title = `${prettyName(change.name)}`;
               img.style.width          = "20px";
               img.style.height         = "20px";
               img.style.verticalAlign  = "middle";
               img.style.marginRight    = "6px";
-          
-              // 2. text node + scores
-              const span = document.createElement("span");
-              span.textContent = `${change.oldScore} ➾ ${change.newScore}`;
-          
+
+              // 2. text nodes + a safe Unicode arrow (? = U+27BE)
+              const beforeScore = document.createTextNode(`${change.oldScore} `);
+              const arrow2 = document.createElement("span");
+              arrow2.textContent = "\u27BE"; // heavy teardrop-shanked rightwards arrow
+              arrow2.setAttribute("aria-hidden", "true");
+              arrow2.style.margin = "0 4px";
+              const afterScore = document.createTextNode(`${change.newScore}`);
+
               // 3. assemble
               li.appendChild(img);
-              li.appendChild(span);
+              li.appendChild(beforeScore);
+              li.appendChild(arrow2);
+              li.appendChild(afterScore);
               ul.appendChild(li);
             }
           });
@@ -621,7 +689,7 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
   tbl.style.width = "100%";
 
   const hdr = document.createElement("tr");
-  ["Item", "Leader", "Count"].forEach(text => {
+  ["Item", "Leader", "Score"].forEach(text => {
     const th = document.createElement("th");
     th.textContent = text;
     hdr.appendChild(th);
@@ -654,12 +722,12 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
     img.src = iconMap[item]
               ? iconMap[item]
               : encodeURI(rawPath);
-    img.alt = item + " icon";
+    img.alt = prettyName(item) + " icon";
     img.style.width = img.style.height = "24px";
     img.style.marginRight = "6px";
     img.style.verticalAlign = "middle";
     cellItem.appendChild(img);
-    cellItem.appendChild(document.createTextNode(item));
+    cellItem.appendChild(document.createTextNode(prettyName(item)));
     row.appendChild(cellItem);
 
     // leader (with color)
@@ -704,6 +772,12 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
         "Clue Leaders",
         CUSTOM_CATEGORIES.Clues.minigames,
         playersData
+        );
+
+        displayItemLeaders(
+          "Other Leaders",
+          CUSTOM_CATEGORIES.Others.minigames,
+          playersData
         );
 
         displayItemLeaders(
