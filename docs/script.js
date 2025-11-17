@@ -134,14 +134,17 @@ function displayCategoryLeaders(playersData) {
   });
   table.appendChild(headerRow);
 
-  // populate rows
+  // populate rows (click to reveal runner-ups)
   categories.forEach(cat => {
     const ranked = rankPlayersByCategory(playersData, cat);
-    if (ranked.length === 0) {
-      return;  // <<–– nothing to render here
-    }
+    if (ranked.length === 0) return;
+
     const top = ranked[0];
+
+    // Visible leader row
     const row = document.createElement("tr");
+    row.style.cursor = "pointer";
+    row.title = "Click to see runner-ups";
 
     // Category + Icon
     const catCell = document.createElement("td");
@@ -157,9 +160,9 @@ function displayCategoryLeaders(playersData) {
 
     // Leader
     const leaderCell = document.createElement("td");
-    leaderCell.textContent = top.name;
-    leaderCell.style.color = leaderColors[top.name] || "black";
     leaderCell.style.fontWeight = "bold";
+    leaderCell.style.color = leaderColors[top.name] || "black";
+    leaderCell.textContent = top.name;
     row.appendChild(leaderCell);
 
     // Total
@@ -167,7 +170,47 @@ function displayCategoryLeaders(playersData) {
     totalCell.textContent = top.gains[cat].toLocaleString();
     row.appendChild(totalCell);
 
+    // Hidden runner-ups row (#2..#5)
+    const detailRow = document.createElement("tr");
+    const detailCell = document.createElement("td");
+    detailCell.colSpan = 3;
+    detailRow.style.display = "none";
+
+    const inner = document.createElement("div");
+    inner.style.padding = "8px 12px";
+    inner.style.background = "rgba(0,0,0,0.03)";
+    inner.style.borderLeft = "3px solid #ddd";
+
+    const list = document.createElement("table");
+    list.style.width = "100%";
+    list.style.fontSize = "0.95em";
+
+    // Header for runner-ups table
+    const rh = document.createElement("tr");
+    const rhPos = document.createElement("th"); rhPos.textContent = "#"; rh.appendChild(rhPos);
+    const rhName = document.createElement("th"); rhName.textContent = "Player"; rh.appendChild(rhName);
+    const rhTotal = document.createElement("th"); rhTotal.textContent = "Total"; rh.appendChild(rhTotal);
+    list.appendChild(rh);
+
+    ranked.slice(1, 5).forEach((p, idx) => {
+      const r = document.createElement("tr");
+      const cPos = document.createElement("td"); cPos.textContent = (idx + 2).toString(); r.appendChild(cPos);
+      const cName = document.createElement("td"); cName.textContent = p.name; cName.style.fontWeight = "500"; cName.style.color = leaderColors[p.name] || "black"; r.appendChild(cName);
+      const cTotal = document.createElement("td"); cTotal.textContent = p.gains[cat].toLocaleString(); r.appendChild(cTotal);
+      list.appendChild(r);
+    });
+
+    inner.appendChild(list);
+    detailCell.appendChild(inner);
+    detailRow.appendChild(detailCell);
+
+    // Toggle behavior
+    row.addEventListener("click", () => {
+      detailRow.style.display = (detailRow.style.display === "none") ? "" : "none";
+    });
+
     table.appendChild(row);
+    table.appendChild(detailRow);
   });
 
   // wrap in box
@@ -682,6 +725,19 @@ function getSkillLevelChanges(snapshots) {
  * @param {Array} playersData  Your enriched data from main()
  * @param {Object} iconMap     Map itemName → icon URL
  */
+// Compute Top-N for a given minigame/boss item based on latest snapshot scores
+function computeTopNForItem(itemName, playersData, N = 5) {
+  const rows = [];
+  playersData.forEach(p => {
+    const score = p.latestMinigames?.[itemName]?.score ?? 0;
+    if (score > 0) {
+      rows.push({ player: p.name, score });
+    }
+  });
+  rows.sort((a, b) => b.score - a.score || (a.player > b.player ? 1 : -1));
+  return rows.slice(0, N);
+}
+
 function displayItemLeaders(title, items, playersData, iconMap = {}) {
   // build table skeleton
   const tbl = document.createElement("table");
@@ -698,30 +754,21 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
 
   // for each boss/minigame/clue
   items.forEach(item => {
-    // 1) figure out the top score
-    let topCount = -1, topPlayer = null;
-    playersData.forEach(p => {
-      const count = p.latestMinigames[item]?.score ?? 0;
-      if (count > topCount) {
-        topCount = count;
-        topPlayer = p.name;
-      }
-    });
-    if (topCount <= 0) {
-      return;    // <— nothing to render for this item
-    }
-    // render row
+    const topN = computeTopNForItem(item, playersData, 5);
+    if (topN.length === 0) return;
+
+    const leader = topN[0];
+
+    // Visible leader row (click to toggle runner-ups)
     const row = document.createElement("tr");
+    row.style.cursor = "pointer";
+    row.title = "Click to see runner-ups";
 
     // item + icon
     const cellItem = document.createElement("td");
     const img = document.createElement("img");
-
     const rawPath = `./images/${item} icon.png`;
-    
-    img.src = iconMap[item]
-              ? iconMap[item]
-              : encodeURI(rawPath);
+    img.src = iconMap[item] ? iconMap[item] : encodeURI(rawPath);
     img.alt = prettyName(item) + " icon";
     img.style.width = img.style.height = "24px";
     img.style.marginRight = "6px";
@@ -732,17 +779,57 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
 
     // leader (with color)
     const cellLeader = document.createElement("td");
-    cellLeader.textContent = topPlayer || "–";
     cellLeader.style.fontWeight = "bold";
-    cellLeader.style.color      = leaderColors[topPlayer] || "black";
+    cellLeader.style.color      = leaderColors[leader.player] || "black";
+    cellLeader.textContent = leader.player || "�";
     row.appendChild(cellLeader);
 
-    // count
+    // leader score
     const cellCount = document.createElement("td");
-    cellCount.textContent = topCount.toLocaleString();
+    cellCount.textContent = leader.score.toLocaleString();
     row.appendChild(cellCount);
 
+    // Hidden runner-ups row (#2..#5)
+    const detailRow = document.createElement("tr");
+    const detailCell = document.createElement("td");
+    detailCell.colSpan = 3;
+    detailRow.style.display = "none";
+
+    const inner = document.createElement("div");
+    inner.style.padding = "8px 12px";
+    inner.style.background = "rgba(0,0,0,0.03)";
+    inner.style.borderLeft = "3px solid #ddd";
+
+    const list = document.createElement("table");
+    list.style.width = "100%";
+    list.style.fontSize = "0.95em";
+
+    // Header for runner-ups table
+    const rh = document.createElement("tr");
+    const rhPos = document.createElement("th"); rhPos.textContent = "#"; rh.appendChild(rhPos);
+    const rhName = document.createElement("th"); rhName.textContent = "Player"; rh.appendChild(rhName);
+    const rhScore = document.createElement("th"); rhScore.textContent = "Score"; rh.appendChild(rhScore);
+    list.appendChild(rh);
+
+    topN.slice(1).forEach((entry, idx) => {
+      const r = document.createElement("tr");
+      const cPos = document.createElement("td"); cPos.textContent = (idx + 2).toString(); r.appendChild(cPos);
+      const cName = document.createElement("td"); cName.textContent = entry.player; cName.style.fontWeight = "500"; cName.style.color = leaderColors[entry.player] || "black"; r.appendChild(cName);
+      const cScore = document.createElement("td"); cScore.textContent = entry.score.toLocaleString(); r.appendChild(cScore);
+      list.appendChild(r);
+    });
+
+    inner.appendChild(list);
+    detailCell.appendChild(inner);
+    detailRow.appendChild(detailCell);
+
+    // Toggle behavior
+    row.addEventListener("click", () => {
+      detailRow.style.display = (detailRow.style.display === "none") ? "" : "none";
+    });
+
     tbl.appendChild(row);
+    tbl.appendChild(detailRow);
   });
 
   // wrap & append
