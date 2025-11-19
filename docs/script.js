@@ -295,7 +295,8 @@ async function displayHighestLevels() {
     "Farming": "./images/Farming icon.png",
     "Runecraft": "./images/Runecraft icon.png",
     "Hunter": "./images/Hunter icon.png",
-    "Construction": "./images/Construction icon.png"
+    "Construction": "./images/Construction icon.png",
+    "Sailing": "./images/Sailing icon.png"
   };
   
   // Create the table
