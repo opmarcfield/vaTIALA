@@ -8,7 +8,7 @@ SKILLS = [
     "Overall", "Attack", "Defence", "Strength", "Hitpoints", "Ranged", 
     "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching", "Fishing",
     "Firemaking", "Crafting", "Smithing", "Mining", "Herblore", "Agility", 
-    "Thieving", "Slayer", "Farming", "Runecraft", "Hunter", "Construction"
+    "Thieving", "Slayer", "Farming", "Runecraft", "Hunter", "Construction", "Sailing"
 ]
 
 # Minigames (remaining lines after the first 24)
@@ -48,7 +48,7 @@ CUSTOM_CATEGORIES = {
         "minigames": []
     },
     "Utility": {
-        "skills": ["Agility", "Construction", "Firemaking", "Slayer", "Thieving"],
+        "skills": ["Agility", "Construction", "Firemaking", "Slayer", "Thieving", "Sailing"],
         "minigames": []
     },
     "Bosses": {
