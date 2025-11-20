@@ -3,7 +3,7 @@ import json
 import os
 from datetime import datetime
 
-# The order of SKILLS in index_lite data (first 24 lines)
+# The order of SKILLS in index_lite data (first len(SKILLS) lines)
 SKILLS = [
     "Overall", "Attack", "Defence", "Strength", "Hitpoints", "Ranged", 
     "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching", "Fishing",
@@ -11,7 +11,7 @@ SKILLS = [
     "Thieving", "Slayer", "Farming", "Runecraft", "Hunter", "Construction", "Sailing"
 ]
 
-# Minigames (remaining lines after the first 24)
+# Minigames (remaining lines after the first len(SKILLS))
 MINIGAMES = [
     "BH1","BH2","BH3","BH4","BH5","BH6","BH7","Clue Scrolls (all)", 
     "Clue Scrolls (beginner)", "Clue Scrolls (easy)", "Clue Scrolls (medium)", 
@@ -99,7 +99,7 @@ def fetch_player_data(player_name):
 def parse_player_data(player_name, raw_data):
     """
     Parses the raw index_lite data into a structured dictionary.
-    Splits out the first 24 lines as SKILLS, remainder as MINIGAMES.
+    Splits out the first len(SKILLS) lines as SKILLS, remainder as MINIGAMES.
     Also computes custom categories (e.g., 'alchemy').
     """
     lines = raw_data.strip().split("\n")
@@ -114,10 +114,10 @@ def parse_player_data(player_name, raw_data):
     }
 
     # --------------------------
-    # Parse skills (first 24 lines)
+    # Parse skills (first len(SKILLS) lines)
     # Each line: rank, level, experience
     # --------------------------
-    for i, line in enumerate(lines[:24]):
+    for i, line in enumerate(lines[:len(SKILLS)]):
         skill_name = SKILLS[i]
         parts = line.split(',')
         if len(parts) >= 3:
@@ -141,7 +141,7 @@ def parse_player_data(player_name, raw_data):
     # Parse minigames (remaining lines)
     # Incl: rank, score
     # --------------------------
-    minigame_lines = lines[24:]
+    minigame_lines = lines[len(SKILLS):]
     for i, line in enumerate(minigame_lines):
         if i < len(MINIGAMES):
             minigame_name = MINIGAMES[i]
