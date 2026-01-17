@@ -73,7 +73,7 @@ const CUSTOM_CATEGORIES = {
       "Grotesque Guardians", "Hespori", "Kalphite Queen", "King Black Dragon",
       "Kraken", "Kree'Arra", "K'ril Tsutsaroth", "Lunar Chests", "Mimic",
       "Nex", "Nightmare", "Phosani's Nightmare", "Obor", "Phantom Muspah",
-      "Sarachnis", "Scorpia", "Scurrius", "Skotizo", "Sol Heredit",
+      "Sarachnis", "Scorpia", "Scurrius","Shellbane Gryphon", "Skotizo", "Sol Heredit",
       "Spindel", "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl",
       "The Leviathan", "The Royal Titans", "The Whisperer", "Thermonuclear Smoke Devil",
       "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion",
@@ -724,7 +724,7 @@ function getSkillLevelChanges(snapshots) {
  * @param {string} title       The heading to use ("Boss Leaders", etc.)
  * @param {string[]} items     Array of keys in latestMinigames to show
  * @param {Array} playersData  Your enriched data from main()
- * @param {Object} iconMap     Map itemName → icon URL
+ * @param {Object} iconMap     Map itemName â icon URL
  */
 // Compute Top-N for a given minigame/boss item based on latest snapshot scores
 function computeTopNForItem(itemName, playersData, N = 5) {
@@ -782,7 +782,7 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
     const cellLeader = document.createElement("td");
     cellLeader.style.fontWeight = "bold";
     cellLeader.style.color      = leaderColors[leader.player] || "black";
-    cellLeader.textContent = leader.player || "�";
+    cellLeader.textContent = leader.player || "";
     row.appendChild(cellLeader);
 
     // leader score
@@ -1063,9 +1063,9 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
             if (index === 0) {
               row.style.fontWeight = "bold";
               let title = "";
-              if (category === "Clues") title = " 🝆 the CLUE MASTER";
-              if (category === "Bosses") title = " 💀 the BOSS KILLER";
-              if (category === "Minigames") title = " 🎮 the MINIGAME CHAMP";
+              if (category === "Clues") title = " ð the CLUE MASTER";
+              if (category === "Bosses") title = " ð the BOSS KILLER";
+              if (category === "Minigames") title = " ð® the MINIGAME CHAMP";
               displayName += title;
             }
       
