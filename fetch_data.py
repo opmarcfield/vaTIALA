@@ -18,7 +18,7 @@ MINIGAMES = [
     "Clue Scrolls (hard)", "Clue Scrolls (elite)", "Clue Scrolls (master)", 
     "LMS - Rank", "PVPARENA", "Soul Wars Zeal", "Rifts closed", "Colosseum Glory", "Collections Logged",
     "Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio", 
-    "Barrows", "Bryophyta", "Callisto", "Calvarion", "Cerberus", 
+    "Barrows", "Brutus", "Bryophyta", "Callisto", "Calvarion", "Cerberus", 
     "Chambers of Xeric", "Chambers of Xeric: Challenge Mode", "Chaos Elemental", 
     "Chaos Fanatic", "Commander Zilyana", "Corporeal Beast", 
     "Crazy Archaeologist", "Dagannoth Prime", "Dagannoth Rex", "Dagannoth Supreme", 
@@ -54,7 +54,7 @@ CUSTOM_CATEGORIES = {
     "Bosses": {
         # pelkät OIKEET BOSSIT
         "skills": [],
-        "minigames": ["Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio", "Barrows", "Bryophyta", 
+        "minigames": ["Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio", "Barrows", "Brutus", "Bryophyta", 
                                     "Callisto", "Calvarion", "Cerberus", "Chaos Elemental", "Chaos Fanatic", 
                                     "Commander Zilyana", "Corporeal Beast", "Crazy Archaeologist", 
                                     "Dagannoth Prime", "Dagannoth Rex", "Dagannoth Supreme", 
