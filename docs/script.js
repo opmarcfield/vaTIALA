@@ -45,72 +45,7 @@ function getDisplayedLevel(skillName, storedLevel, storedXp) {
   if (skillName === "Overall") return storedLevel;
   return xpToVirtualLevel(storedXp);
 }
-const CUSTOM_CATEGORIES = {
-  Combat: {
-    skills:    ["Attack", "Defence", "Hitpoints", "Magic", "Prayer", "Ranged", "Strength"],
-    minigames: []
-  },
-  Gathering: {
-    skills:    ["Farming", "Fishing", "Hunter", "Mining", "Woodcutting"],
-    minigames: []
-  },
-  Production: {
-    skills:    ["Cooking", "Crafting", "Fletching", "Herblore", "Runecraft", "Smithing"],
-    minigames: []
-  },
-  Utility: {
-    skills:    ["Agility", "Construction", "Firemaking", "Slayer", "Thieving"],
-    minigames: []
-  },
-  Bosses: {
-    skills:    [],
-    minigames: [
-      "Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio",
-      "Barrows", "Brutus", "Bryophyta", "Callisto", "Calvarion", "Cerberus",
-      "Chaos Elemental", "Chaos Fanatic", "Commander Zilyana", "Corporeal Beast",
-      "Crazy Archaeologist", "Dagannoth Prime", "Dagannoth Rex", "Dagannoth Supreme",
-      "Deranged Archaeologist", "Doom of Mokhaiotl", "Duke Sucellus", "General Graardor", "Giant Mole",
-      "Grotesque Guardians", "Hespori", "Kalphite Queen", "King Black Dragon",
-      "Kraken", "Kree'Arra", "K'ril Tsutsaroth", "Lunar Chests", "Mimic",
-      "Nex", "Nightmare", "Phosani's Nightmare", "Obor", "Phantom Muspah",
-      "Sarachnis", "Scorpia", "Scurrius","Shellbane Gryphon", "Skotizo", "Sol Heredit",
-      "Spindel", "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl",
-      "The Leviathan", "The Royal Titans", "The Whisperer", "Thermonuclear Smoke Devil",
-      "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion",
-      "Vorkath", "Yama", "Zulrah"
-    ]
-  },
-  Raids: {
-    skills:    [],
-    minigames: ["Tombs of Amascut", "Tombs of Amascut - Expert Mode","Chambers of Xeric", "Chambers of Xeric - Challenge Mode", "Theatre of Blood", "Theatre of Blood - Hard Mode"]
-  },
-  Clues: {
-    skills:    [],
-    minigames: [
-      "Clue Scrolls (all)",
-      "Clue Scrolls (beginner)",
-      "Clue Scrolls (easy)",
-      "Clue Scrolls (medium)",
-      "Clue Scrolls (hard)",
-      "Clue Scrolls (elite)",
-      "Clue Scrolls (master)"
-    ]
-  },
-  Others: {
-    skills:    [],
-    minigames: [
-      "Collections Logged",
-      "Colosseum Glory",
-      "LMS - Rank",
-      "PVPARENA",
-      "Soul Wars Zeal"
-    ]
-  },
-  Minigames: {
-    skills:    [],
-    minigames: ["Tempoross", "Wintertodt", "Rifts closed", "Zalcano"]
-  }
-};
+// CUSTOM_CATEGORIES are now loaded from docs/data/gamedata.json
 
 
 function displayCategoryLeaders(playersData) {
@@ -615,8 +550,19 @@ function getSkillLevelChanges(snapshots) {
             });
           }
       
-          async function main() {        // 1. Gather player data
-        const playersData = [];
+                async function main() {
+      
+                  // Load custom categories from the JSON file
+      
+                  const gamedataResponse = await fetch('./data/gamedata.json');
+      
+                  const CUSTOM_CATEGORIES = await gamedataResponse.json();
+      
+          
+      
+                  // 1. Gather player data
+      
+                  const playersData = [];
         for (const player of PLAYERS) {
           try {
             const data = await fetchPlayerData(player);

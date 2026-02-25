@@ -33,54 +33,9 @@ MINIGAMES = [
     "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Wintertodt", "Yama", "Zalcano", "Zulrah"
 ]
 
-# Custom kategoriat jotta voi seurata niide kehitystä, tässä ny molemmat skills ja minigame samassa en jaksanu parantaa toimii näin
-CUSTOM_CATEGORIES = {
-    "Combat": {
-        "skills": ["Attack", "Defence", "Hitpoints", "Magic", "Prayer", "Ranged", "Strength"],
-        "minigames": []
-    },
-    "Gathering": {
-        "skills": ["Farming", "Fishing", "Hunter", "Mining", "Woodcutting"],
-        "minigames": []
-    },
-    "Production": {
-        "skills": ["Cooking", "Crafting", "Fletching", "Herblore", "Runecraft", "Smithing"],
-        "minigames": []
-    },
-    "Utility": {
-        "skills": ["Agility", "Construction", "Firemaking", "Slayer", "Thieving", "Sailing"],
-        "minigames": []
-    },
-    "Bosses": {
-        # pelkät OIKEET BOSSIT
-        "skills": [],
-        "minigames": ["Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio", "Barrows", "Brutus", "Bryophyta", 
-                                    "Callisto", "Calvarion", "Cerberus", "Chaos Elemental", "Chaos Fanatic", 
-                                    "Commander Zilyana", "Corporeal Beast", "Crazy Archaeologist", 
-                                    "Dagannoth Prime", "Dagannoth Rex", "Dagannoth Supreme", 
-                                    "Deranged Archaeologist", "Doom of Mokhaiotl", "Duke Sucellus", "General Graardor", 
-                                    "Giant Mole", "Grotesque Guardians", "Hespori", "Kalphite Queen", 
-                                    "King Black Dragon", "Kraken", "Kree'Arra", "K'ril Tsutsaroth", "Lunar Chests",
-                                    "Mimic", "Nex", "Nightmare", "Phosani's Nightmare", "Obor", 
-                                    "Phantom Muspah", "Sarachnis", "Scorpia", "Scurrius", "Skotizo", "Sol Heredit", 
-                                    "Spindel", "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl",
-                                    "The Leviathan","The Royal Titans", "The Whisperer", "Thermonuclear Smoke Devil", 
-                                    "TzKal-Zuk", "TzTok-Jad", "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Yama", "Zulrah"]
-    },
-    "Clues": {
-        # Kaikki cluet samaa
-        "skills": [],
-        "minigames": ["Clue Scrolls (all)"]
-    },
-    "Collection log" : {
-        "skills": [],
-        "minigames": ["Collections Logged"]
-    },
-    "Minigames" : {
-        "skills": [],
-        "minigames": ["Tempoross", "Wintertodt", "Rifts closed", "Zalcano"]
-    }
-}
+# Load custom categories from the JSON file, which is now the source of truth.
+with open(os.path.join("docs", "data", "gamedata.json"), "r", encoding="utf-8") as f:
+    CUSTOM_CATEGORIES = json.load(f)
 
 
 def fetch_player_data(player_name):
