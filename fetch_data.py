@@ -19,7 +19,7 @@ MINIGAMES = [
     "LMS - Rank", "PVPARENA", "Soul Wars Zeal", "Rifts closed", "Colosseum Glory", "Collections Logged",
     "Abyssal Sire", "Alchemical Hydra", "Amoxliatl", "Araxxor", "Artio", 
     "Barrows", "Brutus", "Bryophyta", "Callisto", "Calvarion", "Cerberus", 
-    "Chambers of Xeric", "Chambers of Xeric: Challenge Mode", "Chaos Elemental", 
+    "Chambers of Xeric", "Chambers of Xeric - Challenge Mode", "Chaos Elemental", 
     "Chaos Fanatic", "Commander Zilyana", "Corporeal Beast", 
     "Crazy Archaeologist", "Dagannoth Prime", "Dagannoth Rex", "Dagannoth Supreme", 
     "Deranged Archaeologist", "Doom of Mokhaiotl", "Duke Sucellus", "General Graardor", "Giant Mole", 
@@ -29,7 +29,7 @@ MINIGAMES = [
     "Scorpia", "Scurrius", "Shellbane Gryphon", "Skotizo", "Sol Heredit", "Spindel", "Tempoross", 
     "The Gauntlet", "The Corrupted Gauntlet", "The Hueycoatl", "The Leviathan", "The Royal Titans", 
     "The Whisperer", "Theatre of Blood", 
-    "Theatre of Blood: Hard Mode", "Thermonuclear Smoke Devil", "Tombs of Amascut", "Tombs of Amascut - Expert Mode", "TzKal-Zuk", "TzTok-Jad", 
+    "Theatre of Blood - Hard Mode", "Thermonuclear Smoke Devil", "Tombs of Amascut", "Tombs of Amascut - Expert Mode", "TzKal-Zuk", "TzTok-Jad", 
     "Vardorvis", "Venenatis", "Vet'ion", "Vorkath", "Wintertodt", "Yama", "Zalcano", "Zulrah"
 ]
 
