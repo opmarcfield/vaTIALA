@@ -171,3 +171,12 @@ body {
   box-shadow: 0 4px 16px rgba(0,0,0,0.18);
   border: 3px solid #22282b;
 }
+
+.collapsible-header {
+    cursor: pointer;
+    user-select: none; /* To prevent text selection on click */
+}
+
+.collapsible-content.collapsed {
+    display: none;
+}

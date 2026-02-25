@@ -594,13 +594,28 @@ function getSkillLevelChanges(snapshots) {
       }
       
   
-    function rankPlayersByCategory(playersData, category) {
-        // Sort players in descending order of gains for the category
-        return [...playersData].sort((a, b) => b.gains[category] - a.gains[category]);
-      }
-  
-      async function main() {
-        // 1. Gather player data
+          function rankPlayersByCategory(playersData, category) {
+            // Sort players in descending order of gains for the category
+            return [...playersData].sort((a, b) => b.gains[category] - a.gains[category]);
+          }
+    
+          function makeCollapsible() {
+            const headers = document.querySelectorAll('.category-box > h2');
+        
+            headers.forEach(header => {
+                const content = header.nextElementSibling;
+                if (content) {
+                    header.classList.add('collapsible-header');
+                    content.classList.add('collapsible-content');
+                    
+                    header.addEventListener('click', () => {
+                        content.classList.toggle('collapsed');
+                    });
+                }
+            });
+          }
+      
+          async function main() {        // 1. Gather player data
         const playersData = [];
         for (const player of PLAYERS) {
           try {
@@ -1085,6 +1100,6 @@ function displayItemLeaders(title, items, playersData, iconMap = {}) {
         
       }
       
-      main();
+      main().then(makeCollapsible);
 
   
