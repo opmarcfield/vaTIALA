@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap');
 body {
     margin: 0;
     padding: 0;
@@ -31,6 +32,8 @@ body {
     gap: 20px; /* space between the columns */
     align-items: start;
   }
+
+  
     
   .player-changes {
     /* Same main background color as before */
@@ -47,6 +50,13 @@ body {
     /* Add a thin border with a slightly different color */
     border: 1px solid #8d6e63; /* Example color, tweak as needed */
   }
+  
+  .player-changes:hover {
+    transform: translateY(-5px); 
+    /* EXTRA GLOW: Border and shadow glow on hover */
+    border-color: #bc9385;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5), 0 0 10px rgba(141, 110, 99, 0.4);
+}
   .player-changes ul {
   list-style-type: none;  /* remove the default bullet/circle */
   padding: 0;            /* remove left padding/indentation */
@@ -73,35 +83,71 @@ body {
     font-size: 18px;
     /*background-color: rgba(193, 194, 196, 0.8); /* Same color as before, but only here */
   }
-  table {
-    border-collapse: collapse;
+table {
+    border-collapse: separate; 
+    border-spacing: 0;
     margin-bottom: 2em;
-    width: auto;
-    min-width: 100%;
-    border-collapse: collapse;
-    background-color: #a1887f; /* Light Wood Beige */
-    border-radius: 8px;
-    padding: 10px;
+    width: 100%;
+    background-color: rgba(161, 136, 127, 0.9); 
+    border-radius: 12px;
     overflow: hidden;
-  }
+    border: 1px solid #5d4037; 
+    /* DEEP SHADOW: Multi-layered shadow for realistic depth */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+  table:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 15px rgba(109, 76, 65, 0.3);
+}
   th, td {
     border: 1px solid #5d4037; /* Mahogany border */
     padding: 6px 10px;
     text-align: left;
   }
+  tr:hover td {
+    background: rgba(109, 76, 65, 0.25); /* Slightly intensified hover */
+    color: #000; /* Contrast bump */
+}
   th {
     background-color: #6d4c41; /* Deep Brown */
   }
   
   .intro-box {
-    background-color: #6d4c416b; /* Warm Mahogany */
+    background-color: rgba(30, 20, 15, 0.467); /* Warm Mahogany */
     padding: 2px 2px 2px 2px;
-    border: 7px solid #1d0902; /* Adjust color and thickness as desired */
+    border: 1px solid rgba(163, 49, 255, 0.4); /* Adjust color and thickness as desired */
     border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.6), /* Bottom depth shadow */
+        0 0 15px rgba(163, 49, 255, 0.2); /* Soft purple outer glow */
     text-align: center;
     margin-bottom: 20px;
+    /* This adds a purple "aura" that matches the magic flames */
+    backdrop-filter: blur(8px); /* Strengthens the "glass" look */
   }
+  .intro-box h1 {
+    background: linear-gradient(to bottom, #fff3a0 0%, #ffd700 50%, #b8860b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.4));
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+.intro-box i { /* This targets any italics inside the intro box */
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: #e0e0e0;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-top: auto;
+    padding-bottom: 10px;
+    opacity: 0.8;
+    border: 1px solid rgba(141, 110, 99, 0.3); /* Subtle brown border */
+    border-top: 2px solid rgba(255, 215, 0, 0.4);
+    font-style: normal; /* This makes it look like a clean terminal font rather than slanted text */
+}
   
   .category-box {
     padding: 0px 0px 0px 0px;
@@ -121,32 +167,24 @@ body {
     max-width: 100%; /* Ensure the image is responsive */
     height: auto; /* Maintain aspect ratio */
   }
-  .in-memoriam {
-  background: linear-gradient(to bottom, #44484a 0%, #232526 100%);
-  border-radius: 38px 38px 16px 16px / 60px 60px 16px 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.40), 0 2px 0 #222 inset;
-  border: 3px solid #22282b;
-  padding: 38px 26px 26px 26px;
-  margin: 38px auto;
-  max-width: 440px;
-  text-align: center;
-  font-family: 'Poppins', serif;
-  color: #e0e0e0;
-  position: relative;
-  overflow: hidden;
-  background-image:
-    linear-gradient(to bottom, #44484a 0%, #232526 100%),
-    url('https://www.transparenttextures.com/patterns/stone.png');
-  background-blend-mode: multiply;
+/* --- THE RIP SECTION --- */
+.in-memoriam {
+    background: linear-gradient(to bottom, #44484a 0%, #232526 100%);
+    border-radius: 20px;
+    border: 3px solid #1d0902;
+    padding: 30px;
+    margin: 40px auto;
+    max-width: 500px;
+    text-align: center;
+    /* DEEP SHADOW: Heavier shadow for the "heavy" content */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
 }
   
-  .in-memoriam h2 {
-  font-family: 'Poppins', serif;
-  letter-spacing: 2px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #e0e0e0;
-  text-shadow: 0 1px 4px #222;
+.in-memoriam h2 {
+    color: #ff4d4d; 
+    margin-bottom: 5px;
+    /* EXTRA GLOW: Makes the red text look like a warning sign */
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.4);
 }
   
   .in-memoriam em {
@@ -171,7 +209,22 @@ body {
   box-shadow: 0 4px 16px rgba(0,0,0,0.18);
   border: 3px solid #22282b;
 }
+.pulse-dot {
+  height: 8px;
+  width: 8px;
+  background-color: #4dfb4d; /* OSRS Green */
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  box-shadow: 0 0 8px #4dfb4d;
+  animation: pulse 2s infinite;
+}
 
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(77, 251, 77, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(77, 251, 77, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(77, 251, 77, 0); }
+}
 .collapsible-header {
     cursor: pointer;
     user-select: none; /* To prevent text selection on click */
@@ -179,4 +232,51 @@ body {
 
 .collapsible-content.collapsed {
     display: none;
+}
+
+/* Width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track (the part the bar slides in) */
+::-webkit-scrollbar-track {
+  background: #1d0902; 
+}
+ 
+/* Handle (the actual bar) */
+::-webkit-scrollbar-thumb {
+  background: #6d4c41; 
+  border: 1px solid #ffd700;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #8d6e63; 
+}
+
+@keyframes ether-pulse {
+    0% { box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 5px rgba(163, 49, 255, 0.2); }
+    50% { box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(163, 49, 255, 0.4); }
+    100% { box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 5px rgba(163, 49, 255, 0.2); }
+}
+
+.intro-box, .player-changes {
+    animation: ether-pulse 4s infinite ease-in-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.player-changes, table, .intro-box {
+    animation: fadeInUp 0.8s ease-out forwards;
 }
